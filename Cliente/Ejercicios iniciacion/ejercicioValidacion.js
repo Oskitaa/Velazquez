@@ -1,8 +1,8 @@
-document.getElementById("nombre").onkeypress = soloLetras;
-document.getElementById("enviar").onclick = validarTodo;
+
+
 
 function soloLetras(e) {
-    var letras = /[a-zA-ZñÑáéíúóÁÉÍÓÚ ]/;
+    var letras = /[a-zA-ZñÑá-úÁ-Ú ]/;
     return letras.test(e.key);
 }
 
@@ -36,6 +36,7 @@ function validaDni(dni) {
     if (patternDni.test(dni)) {
         numero = dni.substr(0, dni.length - 1) % 23;
         letr = dni.substr(dni.length - 1, 1);
+        console.log(letras.charAt(numero))
         return letr == letras.charAt(numero);
     }
 
