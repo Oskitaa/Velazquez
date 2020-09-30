@@ -1,0 +1,7 @@
+body{
+    text-align: center;
+    color:white;
+    background: url(gradient_bg.jpg) repeat-x;
+    padding-top:1.5em;
+    height: 3em;
+}

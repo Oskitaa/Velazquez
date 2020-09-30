@@ -1,0 +1,9 @@
+body{
+    background: url(img_tree.png) no-repeat fixed right -5px;
+    margin-right: 13em;  
+    transition: all 20s ;
+    transform: scaleZ(0px);
+    transform:  rotate(10000deg);
+    
+    
+}
