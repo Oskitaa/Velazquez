@@ -27,11 +27,14 @@ function validarTodo() {
     let dni = document.getElementById('dni').value;
     let info_dni = document.getElementById('info_dni');
     (!validaDni(dni.toUpperCase())) ? info_dni.innerHTML = 'DNI incorrecto' : info_dni.innerHTML = '';
- 
+
     let fecha = new Date(`${fechas[1].value}/${fechas[0].value}/${fechas[2].value}`);
     let info_fecha = document.getElementById('info_fecha');
+
+    console.log((new Date(Date.now()- fecha).getFullYear())-1970);
+
     (!((fecha.getFullYear()==fechas[2].value) && (fecha.getMonth()+1==fechas[1].value) && (fecha.getDate()==fechas[0].value))) ? info_fecha.innerHTML = 'Fecha incorrecta' : info_fecha.innerHTML ='';
-   
+
     let sug = document.getElementById('sugerencia').value;
     let info_sugerencia = document.getElementById('info_sugerencia');
     (sug.trim() == '') ? info_sugerencia.innerHTML = 'Obligatorio poner una sugerencia' : info_sugerencia.innerHTML = '';
