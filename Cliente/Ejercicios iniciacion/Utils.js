@@ -20,8 +20,18 @@ export function contarLetras(letras, min){
       return  (letras.trim().length < min ) ? true  : false;
 }
 
+export function contarLetrasExac(letras, num){
+        return  (letras.trim().length == num ) ? true  : false;
+  }
+
 export function soloNum(e) {
-        console.log('entra')
        return (e.keyCode >= 48) && (e.keyCode <= 57);
 }
 
+export function soloNumDec1(e) {
+       return (e.keyCode >= 48) && (e.keyCode <= 57) || e.keyCode == 44;
+}
+
+export function soloNumDec2(e) {
+        return (e.keyCode >= 48) && (e.keyCode <= 57) || e.keyCode == 46;
+ }

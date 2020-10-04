@@ -8,12 +8,7 @@
 			}
 			
 		</style>
-		<script src="Utilidades.js"></script>
-		<script>
-
-		
-			
-		</script>
+		<script src="validacion3.js" type="module" defer=""></script>
 	</head>
 
 	<body>
@@ -42,21 +37,21 @@
       		
 			
 			<label>Sexo: </label>
-      <input type="radio" name="sexo" value="femenino" />
-      <label for="femenino">Femenino</label>
-			<input type="radio" name="sexo" value="masculino" />
+      		<input type="radio" name="sexo" value="femenino" id="femenino"/>
+      		<label for="femenino">Femenino</label>
+			<input type="radio" name="sexo" value="masculino" id="masculino"/>
 			<label for="masculino">Masculino</label>
-			<input type="radio" name="sexo" value="ni_me_acuerdo" />
+			<input type="radio" name="sexo" value="ni_me_acuerdo" id="ni_me_acuerdo"/>
 			<label for="ni_me_acuerdo">hace tanto que ni me acuerdo</label>
-      <span id="info_sexo"></span>
+      		<span id="info_sexo"></span>
 			<br><br><br>
 			
 			
 			
 			<label for="f_dia">Fecha: </label>
-      <input type="text" id="f_dia" maxlength="2" size="1" /> / 
-      <input type="text" id="f_mes" maxlength="2" size="1" /> / 
-      <input type="text" id="f_ano" maxlength="4" size="3" /> (dd/mm/aaaa) 
+      <input type="text" id="f_dia" maxlength="2" size="1" name="date"/> / 
+      <input type="text" id="f_mes" maxlength="2" size="1" name="date" /> / 
+      <input type="text" id="f_ano" maxlength="4" size="3" name="date" /> (dd/mm/aaaa) 
       <span id="info_fecha"></span>
       <br><br><br>
 			
@@ -124,7 +119,7 @@
       <br><br>
 			
 			
-			<label for="cc">Número Cuenta Corriente: </label>
+			<label for="ccc">Número Cuenta Corriente: </label>
 			<input type="text" name="ccc" id="ccc" maxlength="20" size="22" /> 
       <span id="info_ccc"></span>
 			<div>(20 dígitos sin blancos)</div>
