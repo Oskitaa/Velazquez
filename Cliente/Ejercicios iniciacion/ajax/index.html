@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script>
+      window.onload = descargaFichero;
+
+      function descargaFichero() {
+        var peticion = new XMLHttpRequest();
+
+        peticion.onreadystatechange = muestracontenido;
+
+        peticion.open("GET", "http://localhost/ajax/holamundo.txt");
+        peticion.send();
+
+        function muestracontenido() {
+          console.log(peticion.status, peticion.readyState);
+          if (peticion.readyState == 4 && peticion.status == 200) {
+            let json = JSON.parse(peticion.responseText);
+            console.log();
+            document.getElementById("div1").innerHTML = json.div1;
+            document.getElementById("div2").innerHTML = json.div2;
+
+
+            for(i = 0; i < json.parrafos; i++){
+            let p = document.createElement('p');
+            p.innerText = `${i+1}. ${json.contenido}`;
+            document.getElementById('parrafos').appendChild(p);
+            }
+
+          }
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div id="div1"></div>
+    <div id="div2"></div>
+
+    <div id="parrafos">
+
+        
+    </div>
+  </body>
+</html>

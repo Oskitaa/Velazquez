@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Plantilla</title>
+    <script src="Utils.js"></script>
+    <script type="text/javascript">
+      window.onload = () => {
+        document.getElementById("numero").onkeypress = soloNum;
+        document.getElementById("fDia").onkeypress = soloNum;
+        document.getElementById("nParrafos").onkeypress = soloNum;
+        document.getElementById("btParrafos").onclick = generaParrafo;
+        document.getElementById("btEstacion").onclick = calculaEstacion;
+        document.getElementById("btFactorial").onclick = () => {
+          Factorial(document.getElementById("numero").value);
+        };
+      };
+
+      function Factorial(num) {
+        let resFactorial = document.getElementById("resFactorial");
+        resFactorial.innerHTML = "Ni puta idea";
+      }
+
+      function calculaEstacion() {
+        let dia = document.getElementById("fDia").value;
+        let nombre = document.getElementById("nombre").value;
+        let mes = document.getElementById("fMes").value;
+        let estacion = document.getElementById("resEstacion");
+        estacion.innerHTML = `${nombre}, has nacido en `;
+        if (dia > 31 || dia < 1) {
+          return false;
+        }
+
+        switch (Math.floor(mes)) {
+          case 1:case 2:
+            estacion.innerHTML += "Invierno";
+            break;
+          case 3:
+            dia >= 21 ? (estacion.innerHTML += "Primavera") : (estacion.innerHTML += "Invierno");
+            break;
+          case 4:case 5:
+            estacion.innerHTML = "Primavera";
+            break;
+          case 6:
+            dia >= 21 ? (estacion.innerHTML = "Verano") : (estacion.innerHTML = "Primavera");
+            break;
+          case 7:case 8:
+            estacion.innerHTML = "Verano";
+            break;
+          case 9:
+            dia >= 21 ? (estacion.innerHTML = "Otoño") : (estacion.innerHTML = "Verano");
+            break;
+          case 10:case 11:
+            estacion.innerHTML = "Otoño";
+            break;
+          case 12:
+            dia >= 21 ? (estacion.innerHTML = "Invierno") : (estacion.innerHTML = "Otoño");
+            break;
+          default:
+            console.log("Algun error");
+            break;
+        }
+      }
+
+      function generaParrafo() {
+        let repeticiones = document.getElementById("nParrafos").value;
+        for (var i = 0; i < repeticiones; i++) {
+          aniadirDom();
+        }
+      }
+
+      function aniadirDom() {
+        let div = document.getElementById("listaParrafos");
+        let nuevoParrafo = document.createElement("p");
+        nuevoParrafo.innerHTML = document.getElementById("contParrafo").value;
+        div.appendChild(nuevoParrafo);
+      }
+    </script>
+
+    <style>
+      body {
+        background-color: yellow;
+        color: red;
+      }
+
+      h3 {
+        text-align: center;
+      }
+
+      #factorial,
+      #genParrafos {
+        background-color: red;
+        color: yellow;
+      }
+
+      #factorial,
+      #datos,
+      #genParrafos {
+        width: 20em;
+        padding: 1em;
+
+        border: 2px solid white;
+        margin: 20px auto auto auto;
+      }
+
+      button {
+        border: none;
+        border-radius: 50px;
+        padding: 5px;
+        box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.3);
+        outline: none;
+      }
+
+      button:hover {
+        color: royalblue;
+        transform: scale(1.2);
+      }
+
+      #listaParrafos p {
+        border: 1px solid white;
+        padding: 5px;
+        text-overflow: ellipsis;
+      }
+
+      #listaParrafos p:nth-of-type(even) {
+        background: yellow;
+        color: red;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="factorial">
+      <h3>Cálculo del factorial de un número</h3>
+      <label>Introduce número: </label>
+      <input type="text" id="numero" />
+
+      <button id="btFactorial">Calcular Factorial</button>
+      <label>Resultado: </label><span id="resFactorial"></span>
+    </div>
+
+    <div id="datos">
+      <h3>Datos personales</h3>
+      <label>Nombre: </label>
+      <input type="text" id="nombre" />
+      <br /><br />
+      <label>Fecha de nacimiento</label>
+      <br /><br />
+      <label>Día: </label>
+      <input type="text" id="fDia" size="2" />
+      <br /><br />
+      <label>Mes: </label>
+      <select id="fMes">
+        <option value="1">Enero</option>
+        <option value="2">Febrero</option>
+        <option value="3">Marzo</option>
+        <option value="4">Abril</option>
+        <option value="5">Mayo</option>
+        <option value="6">Junio</option>
+        <option value="7">Julio</option>
+        <option value="8">Agosto</option>
+        <option value="9">Septiembre</option>
+        <option value="10">Octubre</option>
+        <option value="11">Noviembre</option>
+        <option value="12">Diciembre</option>
+      </select>
+      <br /><br />
+
+      <button id="btEstacion">Calcular btEstación</button>
+      <br /><br />
+      <label>Resultado: </label><span id="resEstacion"></span>
+    </div>
+
+    <div id="genParrafos">
+      <h3>Generación de párrafos</h3>
+      <label>Número párrafos: </label>
+      <input type="text" id="nParrafos" />
+      <br /><br />
+      <label>Contenido párrafos: </label>
+      <br />
+      <textarea id="contParrafo"></textarea>
+      <br />
+      <button id="btParrafos">Generar párrafos</button>
+      <br /><br />
+      <label>Resultado: </label>
+      <br /><br />
+      <div id="listaParrafos"></div>
+    </div>
+  </body>
+</html>

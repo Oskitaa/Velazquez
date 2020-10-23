@@ -1,0 +1,77 @@
+<html>
+  <head> 
+
+    <script>
+        
+        window.onload = () =>{
+          document.getElementById('btGenTabla').onclick = test;
+        }
+
+
+        function test(){
+            var filas = Math.floor(document.getElementById('nfilas').value)-1;
+            var columnas = Math.floor(document.getElementById('ncolumnas').value)-1;
+            var tr = document.getElementById('tbody').childNodes;
+            var txt = document.getElementById('txt').value;
+            tr = Array.from(tr).filter(ele => ele.nodeName == 'TR')[filas].childNodes;
+            tr = Array.from(tr).filter(ele => ele.nodeName == 'TD')[columnas].innerHTML = txt ;
+        }
+    </script>
+
+
+  </head>
+
+  <body>
+
+    <form>
+        <p>
+          <label for="nfilas">Introduce el nombre del campo:</label>
+          <input type="text" id="txt"/>
+          <br />
+          <label for="nfilas">Introduce el número de filas:</label>
+          <input type="number" id="nfilas" value="2" min="1" max="1000" />
+          <br />
+          <label for="ncolumnas">Introduce el número de columnas:</label>
+          <input type="number" id="ncolumnas" value="2" min="1" max="1000" />
+        </p>
+        <p>
+          <button type="button" id="btGenTabla">Generar Tabla</button>
+        </p>
+      </form>
+
+    <table>
+      <thead>
+        <td>Columna 1</td>
+        <td>Columna 2</td>
+        <td>Columna 3</td>
+        <td>Columna 4</td>
+      </thead>
+      <tbody id='tbody'>
+        <tr>
+          <td>F 1 C 1</td>
+          <td>F 1 C 2</td>
+          <td>F 1 C 3</td>
+          <td>F 1 C 4</td>
+        </tr>
+        <tr>
+          <td>F 2 C 1</td>
+          <td>F 2 C 2</td>
+          <td>F 2 C 3</td>
+          <td>F 2 C 4</td>
+        </tr>
+        <tr>
+          <td>F 3 C 1</td>
+          <td>F 3 C 2</td>
+          <td>F 3 C 3</td>
+          <td>F 3 C 4</td>
+        </tr>
+        <tr>
+          <td>F 4 C 1</td>
+          <td>F 4 C 2</td>
+          <td>F 4 C 3</td>
+          <td>F 4 C 4</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

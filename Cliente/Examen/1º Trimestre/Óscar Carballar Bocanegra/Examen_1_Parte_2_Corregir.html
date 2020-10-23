@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+  <head>   
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+    <title>Plantilla</title>
+    
+    <style type="text/css">
+    	span {
+    		display: block;
+    		margin: 0.8em;
+    		border: 1px solid blue;
+    		box-shadow: 2px 2px 4px blue;
+    		max-width: 300px;
+    		width: auto;
+    	}
+    	span label {
+    		float: left;
+    		width: 120px;
+    		padding: 0.25em;
+    	}
+    </style>
+    
+    <script type="text/javascript">
+      
+
+
+
+
+
+
+
+
+
+	  function genTabla(aTabla) {
+    let table = document.createElement('table');
+    aTabla.forEach(columna => {
+        var tr = document.createElement('tr');
+        columna.forEach(fila => {
+            let td = document.createElement('td');
+            td.innerText = fila;
+            tr.appendChild(td);
+        })
+        table.appendChild(tr);
+    });
+    return document.body.appendChild(table);
+}
+
+function aDeTabla(tabla) {
+    let array = [];
+    console.log(tabla);
+
+    //Por si tiene Thead 
+    if (tabla.children[0] != undefined) {
+        for (var i = 0; i < tabla.children[0].children.length; i++) {
+            array[i] = new Array;
+            for (var j = 0; j < tabla.children[0].children[i].children.length; j++) {
+                array[i][j] = tabla.children[0].children[i].children[j].innerText;
+            }
+        }
+    }
+
+
+    //Por si solo tiene tbody, si no tuviera se crea por defecto
+    for (var i = 0; i < tabla.children[1].children.length; i++) {
+        array[i] = new Array;
+        for (var j = 0; j < tabla.children[1].children[i].children.length; j++) {
+            array[i][j] = tabla.children[1].children[i].children[j].innerText;
+        }
+    }
+
+    console.table(array);
+
+    return array;
+
+
+
+}
+	
+	
+	
+	
+	
+	
+
+		
+		
+		
+		
+		/****************************************************************************/
+		
+		window.onload = function() {
+			document.getElementById("btPintaTabla").onclick = function() {
+				var a = [ [ "27473339T", "Marco Elio", "García Gomariz", 5],
+									[ "4334343T", "Mortadelo", "MorDelo", 7],
+									[ "54545339T", "Filemón", "Pi", 3]
+								];
+				document.getElementById("resultado").appendChild(genTabla(a));
+			}
+		
+			document.getElementById("btAdeTabla").onclick = function(){
+			//	console.log(aDeTabla("tablaPersonas"));
+				let test = document.getElementById("tablaPersonas")
+				console.log(aDeTabla(test));
+			} 
+		}
+
+    </script>
+  </head>
+  
+  <body>
+  	
+  	<h2>Ejercicio examen</h2>
+		<form id="f1" >
+    	
+    	<p>
+				<button type="button" id="btPintaTabla">Pinta Tabla</button>
+    		<button type="button" id="btAdeTabla">Array de Tabla</button>
+    		
+    	</p>
+
+		</form>
+    
+    <div id="listado">
+    	<p>
+    		Lista de personas
+    	</p>
+    	<table id="tablaPersonas" border="1">
+    		<tr>
+    			<td>DNI</td>
+    			<td>NOMBRE</td>
+    			<td>APELLIDOS</td>
+    			<td>Fecha Nacimiento</td>
+					<td>Correo</td>
+					<td>Edad</td>
+    		</tr>
+				<tr>
+					<td>27473339T</td>
+					<td>Marco Elio</td>
+					<td>García Gomariz</td>
+					<td>11-11-1992</td>
+					<td>marcoelio11@gmail.com</td>
+					<td>26</td>
+				</tr>
+				<tr>
+					<td>4334343T</td>
+					<td>Mortadelo</td>
+					<td>MorDelo</td>
+					<td>11-11-1952</td>
+					<td>mortadelo@gmail.com</td>
+					<td>50</td>
+				</tr>
+				<tr>
+					<td>54545339T</td>
+					<td>Filemón</td>
+					<td>Pi</td>
+					<td>11-11-1942</td>
+					<td>filemon@gmail.com</td>
+					<td>60</td>
+				</tr>
+				
+    	</table>
+    </div>
+		
+		<h3>
+			Resultado:
+		</h3>
+		<div id="resultado"></div>
+    
+  </body>
+  
+</html>

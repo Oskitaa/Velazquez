@@ -1,4 +1,4 @@
-import {soloLetras, validaDni, contarLetras, soloNum} from './Utils.js';
+import {soloLetras, validaDni, contarLetras, soloNum, getEdad} from './Utils.js';
 
 document.getElementById('formulario_1').onsubmit = validarTodo;
 
@@ -31,7 +31,7 @@ function validarTodo() {
     let fecha = new Date(`${fechas[1].value}/${fechas[0].value}/${fechas[2].value}`);
     let info_fecha = document.getElementById('info_fecha');
 
-    console.log((new Date(Date.now()- fecha).getFullYear())-1970);
+    console.log(getEdad(fecha));
 
     (!((fecha.getFullYear()==fechas[2].value) && (fecha.getMonth()+1==fechas[1].value) && (fecha.getDate()==fechas[0].value))) ? info_fecha.innerHTML = 'Fecha incorrecta' : info_fecha.innerHTML ='';
 
