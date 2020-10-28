@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../utilsAjax.js"></script>
+    <script>
+      window.onload = function () {
+        peticionAJAX("GET", url, car);
+      };
+
+      let url = "https://swapi.dev/api/people/";
+      let caract = ["name", "height", "mass", "birth_year", "homeworld"];
+      let plane = ["Nombre","Rotacion","Diametro","Gravedad","Terreno","Poblacion","Residentes",];
+
+      function car(datos) {
+        let t = document.getElementsByTagName("tbody");
+
+        if (t != null) {
+          Array.from(t).forEach((element) => {
+            element.parentNode.removeChild(element);
+          });
+        }
+
+        let btn1 = document.getElementById("btn1");
+        let btn2 = document.getElementById("btn2");
+        
+        btn1.disabled = (datos.previous == null) ? true : false;
+        btn2.disabled = (datos.next == null) ? true : false;
+
+        btn1.onclick = function () {
+          peticionAJAX("GET", datos.previous, car);
+        };
+
+        btn2.onclick = function () {
+          peticionAJAX("GET", datos.next, car);
+        };
+
+        let tabla = document.getElementById("table");
+        let tbody = document.createElement("tbody");
+
+        for (i = 0; i < datos.results.length; i++) {
+          let tr = document.createElement("tr");
+          for (x = 0; x < caract.length; x++) {
+            let td = document.createElement("td");
+            td.innerText = datos.results[i][caract[x]];
+            if (caract[x] == "homeworld") {
+              td.innerText = "";
+              let a = document.createElement("a");
+              a.setAttribute("href", datos.results[i][caract[x]]);
+              a.innerHTML = datos.results[i][caract[x]];
+              td.appendChild(a);
+            }
+            tr.appendChild(td);
+          }
+
+          tbody.appendChild(tr);
+          tabla.appendChild(tbody);
+        }
+        document.body.appendChild(tabla);
+        datosPlanetas();
+      }
+
+      function datosPlanetas() {
+        let a = document.querySelectorAll("tbody a").forEach((e) => {
+          e.onclick = function (event) {
+            event.preventDefault();
+            peticionAJAX("GET", this.href, function (d) {
+              let test = [d.name,d.rotation_period,d.diameter,d.climate,d.gravity,d.terrain,d.population,d.residents];
+              let p = document.querySelectorAll("#planets p");
+              p.forEach((e) => (e.innerHTML = ""));
+              for (let i = 0; i < test.length; i++) {
+                p[i].innerHTML += plane[i] + ": " + test[i];
+              }
+            });
+          };
+        });
+      }
+    </script>
+
+    <style>
+      table,tr,td {
+        border: 1px solid #1630BE;
+        border-collapse: collapse;
+      }
+
+      table{
+        position: absolute;
+        margin: 10px;
+        text-align: center;
+        box-shadow: 0px 0px 10px #1630BE;
+      }
+
+      .abajo{
+        position: absolute;
+        top: 36%;
+        margin: 10px;
+      }
+
+      .ab{
+        top:38% ;
+      }
+
+      button{
+        border:  #1630BE;
+        border-radius: 50px;
+        box-shadow: 0px 0px 10px #1630BE;
+        background: white;
+        outline: none;
+        padding: 4px;
+      }
+
+      button:last-child{
+        margin-left: 10px;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div>
+      <table id="table">
+        <thead>
+          <td>Nombre</td>
+          <td>Altura</td>
+          <td>Peso</td>
+          <td>Año nacimiento</td>
+          <td>Planeta</td>
+        </thead>
+      </table>
+    </div>
+    <div class="abajo">
+      <button id="btn1">Anterior</button>
+      <button id="btn2">Siguiente</button>
+    </div>
+    <div class="abajo ab">
+      <p>Datos Planetas</p>
+      <div id="planets">
+        <p>Nombre</p>
+        <p>Rotacion</p>
+        <p>Diametro</p>
+        <p>Gravedad</p>
+        <p>Terreno</p>
+        <p>Poblacion</p>
+        <p>Residentes</p>
+      </div>
+    </div>
+  </body>
+</html>

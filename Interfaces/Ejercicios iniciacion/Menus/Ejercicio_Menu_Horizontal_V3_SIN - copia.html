@@ -17,12 +17,19 @@
       }
 
       li {
-        margin: 1em;
         list-style-type: none;
       }
 
       .menuHorizontal ul > li > ul {
         display: none;
+      }
+
+      .menuHorizontal ul li{
+        margin-left: 20px;
+      }
+
+      .menuHorizontal ul > li > ul >li{
+        margin-left: 0px;
       }
 
       a {
@@ -32,14 +39,18 @@
       }
 
       .menuHorizontal ul > li:hover > ul {
-        display: block;
+        display: flex;
+        flex-direction: row;
         position: absolute;
+        top: 4em;
         padding-inline-start: 0;
       }
 
       .menuHorizontal ul > li > ul > li:hover > ul {
-        display: block;
+        display: flex;
+        flex-direction: row;
         position: absolute;
+        top: 2em;
         padding-inline-start: 0;
       }
     </style>

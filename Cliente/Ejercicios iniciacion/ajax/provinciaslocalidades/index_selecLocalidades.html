@@ -10,14 +10,14 @@
         cargaProvincias();
         cargaLocalidades(2);
 
-        document.getElementById("provincia").onchange = function(){ cargaLocalidades(this.value);}
+        document.getElementById("provincia").onchange = cargaLocalidades(this.value);
         
       }
       function cargaProvincias() {
         var peticion = new XMLHttpRequest();
 
         peticion.onreadystatechange = ponerProvincias;
-        peticion.open("GET","http://localhost:3000/Cliente/Ejercicios%20iniciacion/ajax/provinciaslocalidades/servidor.php?servicio=provincias");
+        peticion.open("GET","http://localhost/ajax/provinciaslocalidades/servidor.php?servicio=provincias");
         peticion.send();
 
         function ponerProvincias() {
@@ -37,7 +37,7 @@
         var peticion = new XMLHttpRequest();
 
         peticion.onreadystatechange = ponerLocalidades;
-        peticion.open("GET",`http://localhost:3000/Cliente/Ejercicios%20iniciacion/ajax/provinciaslocalidades/servidor.php?servicio=localidades&codigop=${num}`);
+        peticion.open("GET",`http://localhost/ajax/provinciaslocalidades/servidor.php?servicio=localidades&codigop=${num}`);
         peticion.send();
 
         function ponerLocalidades() {
