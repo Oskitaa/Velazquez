@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script src="../utilsAjax.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <script>
       window.onload = function () {
         peticionAJAX("GET", url, car);
@@ -12,11 +13,10 @@
 
       let url = "https://swapi.dev/api/people/";
       let caract = ["name", "height", "mass", "birth_year", "homeworld"];
-      let plane = ["Nombre","Rotacion","Diametro","Gravedad","Terreno","Poblacion","Residentes",];
+      let plane = ["Nombre","Rotacion","Diametro","Clima","Gravedad","Terreno","Poblacion"];
 
       function car(datos) {
         let t = document.getElementsByTagName("tbody");
-
         if (t != null) {
           Array.from(t).forEach((element) => {
             element.parentNode.removeChild(element);
@@ -26,8 +26,8 @@
         let btn1 = document.getElementById("btn1");
         let btn2 = document.getElementById("btn2");
         
-        btn1.disabled = (datos.previous == null) ? true : false;
-        btn2.disabled = (datos.next == null) ? true : false;
+        btn1.disabled = datos.previous == null;
+        btn2.disabled = datos.next == null;
 
         btn1.onclick = function () {
           peticionAJAX("GET", datos.previous, car);
@@ -67,12 +67,21 @@
           e.onclick = function (event) {
             event.preventDefault();
             peticionAJAX("GET", this.href, function (d) {
-              let test = [d.name,d.rotation_period,d.diameter,d.climate,d.gravity,d.terrain,d.population,d.residents];
-              let p = document.querySelectorAll("#planets p");
-              p.forEach((e) => (e.innerHTML = ""));
+              let test = [d.name,d.rotation_period,d.diameter,d.climate,d.gravity,d.terrain,d.population];
+             
+              document.querySelectorAll('li').forEach(e => e.parentElement.removeChild(e));
               for (let i = 0; i < test.length; i++) {
-                p[i].innerHTML += plane[i] + ": " + test[i];
+                let li = document.createElement('li');
+                li.innerHTML= plane[i] + ": " + test[i];
+                document.getElementsByTagName('ul')[0].appendChild(li);
+                
               }
+              
+              new Sortable(document.querySelector('ul'), {
+                handle: "li",
+                animation:300
+              });
+              
             });
           };
         });
@@ -115,6 +124,24 @@
         margin-left: 10px;
       }
 
+      #gif{
+        z-index: 9999;
+        position: absolute;
+        width: 100%;
+        height: 90vh;
+        display: flex;
+        visibility: hidden;
+        justify-content: center;
+        align-items: center;
+      }
+
+      li{
+        list-style: none;
+        border: 1px solid #1630BE;
+      }
+
+   
+
     </style>
   </head>
   <body>
@@ -136,14 +163,13 @@
     <div class="abajo ab">
       <p>Datos Planetas</p>
       <div id="planets">
-        <p>Nombre</p>
-        <p>Rotacion</p>
-        <p>Diametro</p>
-        <p>Gravedad</p>
-        <p>Terreno</p>
-        <p>Poblacion</p>
-        <p>Residentes</p>
+       <ul></ul>
       </div>
     </div>
+
+    <div id="gif">
+      <img src="./tenor.gif" id="test">
+    </div>
+
   </body>
 </html>

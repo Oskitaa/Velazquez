@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Validar Formularios</title>
+		<style type="text/css">
+			span {
+				color: red;  
+			}
+			
+			h1{
+				text-align: center;
+				color: #FF6766;
+			}
+			
+			fieldset {
+  			background-color: #E5FFBD;
+  			margin-bottom:2em;
+			}
+			
+			
+			
+			fieldset:hover, fieldset:hover > legend, 
+			fieldset:hover > input[type=text], fieldset:hover > select
+			{
+				background-color: #FFCD72
+			}
+			
+			fieldset legend{
+				font-size: 1.5em;
+				background-color:#E5FFBD;
+				border-radius: 15px 15px 0 0;
+				border-top: 1px solid black;
+				padding: .2em;
+			}
+			
+			
+			
+			fieldset div{
+				margin-top: .3em;
+				margin-bottom: 1.1em;
+
+			}
+			
+			fieldset label{
+				display: inline-block;
+				width: 70px;
+				text-align: right;
+			}
+			
+			fieldset input, fieldset select, fieldset textarea{
+				border: none;
+				border-bottom: 1px solid black;
+				background-color: #E5FFBD;
+				background: inherit;
+				font-size: 1.1em;
+			}
+			
+			fieldset textarea { 
+				width: 300px;
+			 	height: 70px;
+			 	border-top: 1px solid black;
+			 	font-weight: bold;
+			 	font-size: 1.3em;
+			}
+			
+			fieldset ul {
+				margin-top: 0;
+				list-style: none;
+				margin-bottom: 2em;
+			}
+			
+			fieldset ul label {
+				display: inline;
+			}
+			
+			fieldset + fieldset + fieldset label {
+				display: inline;
+			}
+			
+			
+			h3{
+				color: maroon;
+				margin-bottom: .3em;
+			}
+			h3 + div{
+				margin-bottom: .8em;
+				color: #F5BB9D;
+			}
+			
+			input[type=submit], input[type=reset]{
+				border: 2px solid #FF6766;
+				background-color: #F5BB9D;
+				border-radius: 7px;
+				padding: .5em;
+				font-size: 1em;
+				margin: 1em 0 1em 1em;
+			}
+			
+			
+			fieldset input[type=radio], fieldset input[type=checkbox]{
+				width: 1.3em;
+				height: 1.2em;
+			}
+			
+			fieldset input:checked + label{
+				font-weight: bolder;
+				font-variant: small-caps;
+			}
+			
+			/* Para que le quite la línea (outline) azulica que le pone Crhome */
+			*:focus {
+				outline: none;   
+			}
+			
+		</style>
+	</head>
+
+	<body>
+		<h1>Ejercicio Validación de Formularios</h1>
+		<form id="formulario_1">
+			<h3>Formulario de Registro:</h3>
+			<div>(Todos los campos son obligatorios)</div>
+		 	<fieldset>
+	  		<legend>Datos personales:</legend>
+				<label for="nombre">Nombre: </label>
+				<input type="text" name="nombre" id="nombre" maxlength="25" size="15" />
+				<span id="info_nombre"></span>
+				<div>(Mínimo 2 letras)</div>
+				
+				<label for="apellidos">Apellidos: </label>
+				<input type="text" name="apellidos" id="apellidos" maxlength="50" size="25" />
+				<span id="info_apellidos"></span>
+				<div>(Mínimo 4 letras)</div>
+				
+				<label for="dni">NIF: </label>
+				<input type="text" name="dni" id="dni" maxlength="9" size="9" />
+				<span id="info_dni"></span>
+			</fieldset>
+		
+		
+			<fieldset class="adicionales">
+	  		<legend>Datos adicionales:</legend>
+				<label>Sexo: </label>
+				<ul>
+					<li>
+		      	<input type="radio" name="sexo" value="femenino" />
+		      	<label for="femenino">Femenino</label>
+		     </li>
+		     <li>
+						<input type="radio" name="sexo" value="masculino" />
+						<label for="masculino">Masculino</label>
+					</li>
+					<li>
+						<input type="radio" name="sexo" value="ni_me_acuerdo" />
+						<label for="ni_me_acuerdo">hace tanto que ni me acuerdo</label>
+					</li>
+				</ul>
+	      <span id="info_sexo"></span>
+				
+				<label for="f_dia">Fecha: </label>
+	      <input type="text" id="f_dia" maxlength="2" size="1" /> / 
+	      <input type="text" id="f_mes" maxlength="2" size="1" /> / 
+	      <input type="text" id="f_ano" maxlength="4" size="3" /> 
+	      <div>(dd/mm/aaaa)</div> 
+	      <span id="info_fecha"></span>
+	
+				<label >Estatura: </label>
+				<input type="text" size="5" maxlength="7"> 
+				<div>(en metros)</div>
+				<span id="info_estatura"></span>
+			
+				<label >Est. Civil:</label>
+	      <select>
+	      	<option value="-1">Selecciona una opción</option>
+	      	<option value="1">Soltera/o</option>
+	      	<option value="2">Casada/o</option>
+	      	<option value="3">Separada/o</option>
+	      	<option value="4">Divorciada/o</option>
+	      	<option value="5">Pareja de hecho</option>
+	      	<option value="6">En la gloria</option>
+	      	<option value="7">Es complicado!!!!</option>
+	      </select> 
+				<span id="info_estado_civil"></span>
+			</fieldset>
+		
+	
+			<fieldset>
+				<legend>Otros datos: </legend>
+				<label>Preferencias en zumos de cebada: </label>
+				<ul>
+					<li>
+						<input type="checkbox" name="bebidas" value="paulaner" />
+						<label>Paulaner</label>
+					</li>
+					<li>
+						<input type="checkbox" name="bebidas" value="coronita" />
+						<label>Coronita</label>
+					</li>
+					<li>
+						<input type="checkbox" name="bebidas" value="cruzcampo" />
+						<label>Cruzcampo</label>
+					</li>
+					<li>
+						<input type="checkbox" name="bebidas" value="desperados" />
+						<label>Desperados</label>
+					</li>
+					<li>
+						<input type="checkbox" name="bebidas" value="grimbergen" />
+						<label>Grimbergen optimo bruno</label>
+					</li>
+					<li>
+						<input type="checkbox" name="bebidas" value="judas" />
+						<label>Judas</label>
+					</li>
+					<li>
+						<input type="checkbox" name="bebidas" value="lucifer" />
+						<label>Lucifer</label>
+					</li>
+					<li>
+						<input type="checkbox" name="bebidas" value="ambar" />
+						<label>Ambar Export</label>
+					</li>
+					<div>(Mínimo 3 opciones)</div>
+				</ul>
+		    <span id="info_bebidas"></span>
+		
+				<label for="cc">Cuenta Corriente: </label>
+				<input type="text" maxlength="20" size="22" /> 
+		    <span id="info_ccc"></span>
+				<div>(20 dígitos sin blancos)</div>
+		
+		    <label>Alguna sugerencia: </label>
+		    <textarea></textarea>
+				<span id="info_sugerencia"></span>  
+			</fieldset>
+	
+			<fieldset>
+				<input type="submit" value="ENVIAR" >
+				<input type="reset" value="Limpiar">
+			</fieldset>
+	
+		</form>
+	</body>
+</html>
+
+
