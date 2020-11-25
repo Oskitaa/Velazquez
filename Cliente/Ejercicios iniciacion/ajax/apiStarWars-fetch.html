@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../utilsAjax.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script>
+      window.onload = function () {
+        fetch(url)
+        .then(res => res.json())
+        .then(data => car(data))
+      };
+
+      let url = "https://swapi.dev/api/people/";
+      let caract = ["name", "height", "mass", "birth_year", "homeworld"];
+      let plane = ["Nombre","Rotacion","Diametro","Clima","Gravedad","Terreno","Poblacion"];
+
+      function car(datos) {
+        let t = document.getElementsByTagName("tbody");
+        if (t != null) {
+          Array.from(t).forEach((element) => {
+            element.parentNode.removeChild(element);
+          });
+        }
+
+        let btn1 = document.getElementById("btn1");
+        let btn2 = document.getElementById("btn2");
+        
+        btn1.disabled = datos.previous == null;
+        btn2.disabled = datos.next == null;
+
+        btn1.onclick = function () {
+          fetch(datos.previous)
+          .then(res => res.json())
+          .then(data => car(data))
+      };
+
+        btn2.onclick = function () {
+          fetch(datos.next)
+          .then(res => res.json())
+          .then(data => car(data))
+        };
+
+        let tabla = document.getElementById("table");
+        let tbody = document.createElement("tbody");
+
+        for (i = 0; i < datos.results.length; i++) {
+          let tr = document.createElement("tr");
+          for (x = 0; x < caract.length; x++) {
+            let td = document.createElement("td");
+            td.innerText = datos.results[i][caract[x]];
+            if (caract[x] == "homeworld") {
+              td.innerText = "";
+              let a = document.createElement("a");
+              a.setAttribute("href", datos.results[i][caract[x]]);
+              a.innerHTML = datos.results[i][caract[x]];
+              td.appendChild(a);
+            }
+            tr.appendChild(td);
+          }
+
+          tbody.appendChild(tr);
+          tabla.appendChild(tbody);
+        }
+        document.body.appendChild(tabla);
+        datosPlanetas();
+      }
+
+      function datosPlanetas() {
+        let a = document.querySelectorAll("tbody a").forEach((e) => {
+          e.onclick = function (event) {
+            event.preventDefault();            
+            fetch(this.href)
+          .then(res => res.json())
+          .then(d => {
+              let test = [d.name,d.rotation_period,d.diameter,d.climate,d.gravity,d.terrain,d.population];
+             
+              document.querySelectorAll('li').forEach(e => e.parentElement.removeChild(e));
+              for (let i = 0; i < test.length; i++) {
+                let li = document.createElement('li');
+                li.innerHTML= plane[i] + ": " + test[i];
+                document.getElementsByTagName('ul')[0].appendChild(li);
+                
+              }
+              
+              new Sortable(document.querySelector('ul'), {
+                handle: "li",
+                animation:300
+              });
+            })
+          };
+        });
+      }
+    </script>
+
+    <style>
+      table,tr,td {
+        border: 1px solid #1630BE;
+        border-collapse: collapse;
+      }
+
+      table{
+        position: absolute;
+        margin: 10px;
+        text-align: center;
+        box-shadow: 0px 0px 10px #1630BE;
+      }
+
+      .abajo{
+        position: absolute;
+        top: 36%;
+        margin: 10px;
+      }
+
+      .ab{
+        top:38% ;
+      }
+
+      button{
+        border:  #1630BE;
+        border-radius: 50px;
+        box-shadow: 0px 0px 10px #1630BE;
+        background: white;
+        outline: none;
+        padding: 4px;
+      }
+
+      button:last-child{
+        margin-left: 10px;
+      }
+
+      #gif{
+        z-index: 9999;
+        position: absolute;
+        width: 100%;
+        height: 90vh;
+        display: flex;
+        visibility: hidden;
+        justify-content: center;
+        align-items: center;
+      }
+
+      li{
+        list-style: none;
+        border: 1px solid #1630BE;
+      }
+
+   
+
+    </style>
+  </head>
+  <body>
+    <div>
+      <table id="table">
+        <thead>
+          <td>Nombre</td>
+          <td>Altura</td>
+          <td>Peso</td>
+          <td>Año nacimiento</td>
+          <td>Planeta</td>
+        </thead>
+      </table>
+    </div>
+    <div class="abajo">
+      <button id="btn1">Anterior</button>
+      <button id="btn2">Siguiente</button>
+    </div>
+    <div class="abajo ab">
+      <p>Datos Planetas</p>
+      <div id="planets">
+       <ul></ul>
+      </div>
+    </div>
+
+    <div id="gif">
+      <img src="./tenor.gif" id="test">
+    </div>
+
+  </body>
+</html>

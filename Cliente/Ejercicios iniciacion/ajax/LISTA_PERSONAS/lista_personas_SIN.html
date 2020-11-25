@@ -6,56 +6,105 @@
     <style type="text/css"></style>
 
     <script type="text/javascript">
+      var url =
+        "http://localhost:3000/Cliente/Ejercicios%20iniciacion/ajax/LISTA_PERSONAS/servidor.php";
       window.onload = () => {
-        peticionAJAX("post","http://localhost:3000/Cliente/Ejercicios%20iniciacion/ajax/LISTA_PERSONAS/servidor.php",{ servicio: "listar" },(datos) =>
-         {pintarPersonas(datos);
-          }
-        );
+        peticionAJAX("post", url, { servicio: "listar" }, (datos) => {
+          pintarPersonas(datos);
+        });
 
-        document.querySelector("#btBorrar").onclick = function () {
-          let borrar = {
-            servicio: "borrar",
-            ID: document.getElementById("id").value,
-          };
-
-          peticionAJAX("delete","http://localhost:3000/Cliente/Ejercicios%20iniciacion/ajax/LISTA_PERSONAS/servidor.php",borrar,(datos) => {
-              pintarPersonas(datos);
-            }
-          );
+        document.getElementById("btn_add").onclick = function () {
+          document.querySelector("#form_add").style.visibility = "visible";
         };
+        document.querySelector("#form_add > button").onclick = aniadirPersonas;
+      };
 
-        document.querySelector("#btAnade").onclick = function () {
-          let ingresar = {
-            servicio: "insertar",
-            DNI: document.querySelector("#dni").value,
-            NOMBRE: document.querySelector("#nombre").value,
-            APELLIDOS: document.querySelector("#apellidos").value,
-          };
-          peticionAJAX("delete","http://localhost:3000/Cliente/Ejercicios%20iniciacion/ajax/LISTA_PERSONAS/servidor.php",ingresar,(datos) => {
-              pintarPersonas(datos);
-            }
-          );
+      function borrarPersonas() {
+        let borrar = {
+          servicio: "borrar",
+          ID: this.idper,
         };
+        if (confirm(`Desea borrar a ${this.dataset.nomper}`)) {
+          peticionAJAX("delete", url, borrar, (datos) => {
+            pintarPersonas(datos);
+          });
+        }
+      }
+
+      const aniadirPersonas = () => {
+        let ingresar = {
+          servicio: "insertar",
+          DNI: document.querySelector("#dni").value,
+          NOMBRE: document.querySelector("#nombre").value,
+          APELLIDOS: document.querySelector("#apellidos").value,
+        };
+        peticionAJAX("delete", url, ingresar, (datos) => {
+          pintarPersonas(datos);
+        });
+      };
+
+      function editaPersona(){
+        console.log(this);
+        document.querySelector("#dni").value = this.dataset.idper;
+        document.querySelector("#nombre").value = this.dataset.nomper;
+        document.querySelector("#apellidos").value = this.dataset.apeper;
+        let ingresar = {
+          servicio: "modificar",
+          DNI: document.querySelector("#dni").value,
+          NOMBRE: document.querySelector("#nombre").value,
+          APELLIDOS: document.querySelector("#apellidos").value,
+        };
+        document.querySelector('#form_mod > button').onclick= function(){
+        peticionAJAX("PUT", url, ingresar, (datos) => {
+          pintarPersonas(datos);
+        });}
       };
 
       function pintarPersonas(datos) {
         let cuerpo = document.querySelector("#filas_tabla");
         cuerpo.innerHTML = "";
+        console.log(datos);
         for (persona of datos) {
-          let fila = document.createElement("tr");
+          var fila = document.createElement("tr");
           for (i in persona) {
-            let columna = document.createElement("td");
+            var columna = document.createElement("td");
             columna.innerHTML = persona[i];
             fila.append(columna);
-            cuerpo.append(fila);
           }
+
+          columna = document.createElement("td");
+          let boton = document.createElement("button");
+          boton.dataset.idper = persona.ID;
+          boton.dataset.nomper = persona.NOMBRE;
+          boton.onclick = borrarPersonas;
+          boton.innerText = "Borrar";
+          columna.append(boton);
+          fila.append(columna);
+
+          columna = document.createElement("td");
+          boton = document.createElement("button");
+          boton.dataset.idper = persona.ID;
+          boton.dataset.nomper = persona.NOMBRE;
+          boton.dataset.apeper =persona.APELLIDOS;
+          boton.onclick = function () {
+              document.querySelector('#form_mod').style.visibility = 'visible';
+              editaPersona();
+          };
+          boton.innerText = "Editar";
+          columna.append(boton);
+
+          fila.append(columna);
+          cuerpo.append(fila);
         }
       }
 
       const peticionAJAX = (metodo, url, servicio, callback) => {
         const peticion = new XMLHttpRequest();
         peticion.open(metodo, url, true);
-        peticion.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        peticion.setRequestHeader(
+          "Content-type",
+          "application/x-www-form-urlencoded"
+        );
         peticion.send(JSON.stringify(servicio));
         peticion.onreadystatechange = () => {
           if (peticion.readyState == 4 && peticion.status == 200) {
@@ -64,11 +113,28 @@
         };
       };
     </script>
+
+    <style>
+      .form_add {
+        visibility: hidden;
+        position: absolute;
+        background: purple;
+        color: white;
+        height: 150px;
+        width: 300px;
+      }
+
+      .form_add > input {
+        background: inherit;
+        color: inherit;
+      }
+    </style>
   </head>
   <body>
     <h1>Registro de Usuarios</h1>
+    <button id="btn_add">Nueva Persona</button>
 
-    <form>
+    <form id="form_add" class="form_add">
       <label for="dni">DNI:</label>
       <input type="text" id="dni" name="dni" value="27473339T" />
       <span id="infoDNI"> </span>
@@ -77,27 +143,54 @@
       <input type="text" id="nombre" name="nombre" value="Marco Elio" />
       <br />
       <label for="apellidos">APELLIDOS:</label>
-      <input type="text" id="apellidos" name="apellidos" value="García Gomariz"/>
+      <input
+        type="text"
+        id="apellidos"
+        name="apellidos"
+        value="García Gomariz"
+      />
       <br />
-      <br />
+      <button>Añadir</button>
+      <button>Cancelar</button>
+    </form>
 
+    <form id="form_mod" class="form_add">
+      <label for="dni">DNI:</label>
+      <input type="text" id="dnimod" name="dni" value="27473339T" />
+      <span id="infoDNI"> </span>
+      <br />
+      <label for="nombre">NOMBRE:</label>
+      <input type="text" id="nombremod" name="nombre" value="Marco Elio" />
+      <br />
+      <label for="apellidos">APELLIDOS:</label>
+      <input
+        type="text"
+        id="apellidosmod"
+        name="apellidos"
+        value="García Gomariz"
+      />
+      <br />
+      <button type="button">Añadir</button>
+      <button>Cancelar</button>
+    </form>
+
+    <br />
+    <br />
+    <form>
       <table id="tabla_personas" border="1">
-        <tr>
-          <th>ID</th>
-          <th>DNI</th>
-          <th>NOMBRE</th>
-          <th>APELLIDOS</th>
-        </tr>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>DNI</th>
+            <th>NOMBRE</th>
+            <th>APELLIDOS</th>
+            <th>BORRARs</th>
+            <th>EDITAR</th>
+          </tr>
+        </thead>
 
         <tbody id="filas_tabla"></tbody>
       </table>
-
-      <br />
-      <br />
-      <input type="button" value="AÑADIR" id="btAnade" />
-      <br /><br />
-      <input type="button" value="BORRAR" id="btBorrar" />
-      <input type="text" id="id" name="id" value="" size="5" placeholder="ID a borrar" />
     </form>
   </body>
 </html>

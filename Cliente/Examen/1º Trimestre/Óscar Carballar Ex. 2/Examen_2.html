@@ -1,0 +1,52 @@
+<html>
+  <head>   
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+    <title>Examen 2</title>
+    <script src="./Utils.js" type="module"></script>
+    <script src="./validacion.js"></script>
+  </head>
+
+  <body>
+  <center>FORMULARIO</center>
+  <form id="f1" action="Alta_Usuario.php">
+    <p>
+      Nombre: <input type="text" id="nombre" >
+      <span id="spnombre"></span>
+    </p>
+    <p>
+      Apellidos: <input type="text" id="apellidos" >
+      <span id="spapellidos"></span>
+    </p>
+    <p>
+      NIF: <input type="text" id="nif">
+      <span id="spnif"></span>
+    </p>
+    <p>
+      Usuario: <input type="text" id="usuario">
+      <span id="spusuario"></span>
+    </p>
+    <p>
+      Clave: <input type="text" id="clave">
+      <span id="spclave"></span>
+    </p>
+    <p>
+      Repetir Clave: <input type="password" id="rep_clave">
+      <span id="sprep_clave"></span>
+    </p>
+    <p>
+      Fecha de Nacimiento:
+      <input type="text" id="fn_dia" maxlength="2" size="1" /> / 
+      <input type="text" id="fn_mes" maxlength="2" size="1"/> / 
+      <input type="text" id="fn_ano" maxlength="4" size="3"/> (dd/mm/aaaa) 
+      <span id="spf_nacimiento"></span>
+    </p>
+
+    <br><br>
+    <p>
+      <input type="submit" value="Enviar" id="enviar" />
+      <br><br>
+      <input type="reset" value="Limpiar Campos" id="limpiar_campos" />
+    </p>
+  </form>
+</body>
+</html>

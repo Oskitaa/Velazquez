@@ -39,7 +39,9 @@ function isValid($var, $tam){
     <?php
         print('Errores encontrados.');
        } else {
-        print('<p>'. $dividendo/$divisor .'</p>');
+        print('<p>Dividendo '. $dividendo.', divisor '.$divisor .'</p>');
+        print (($dividendo%$divisor ==0) ? 'Es exacta' : 'No es exacta');
+        print('<p>Cociente '. $dividendo/$divisor .', resto, '. $dividendo%$divisor.'</p>');
     }}
     ?>
 </body>
