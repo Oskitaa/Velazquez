@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>   
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+    <title>Plantilla</title>
+    <script type="text/javascript">
+      
+			var db;
+			
+      window.onload = function(){
+				db = openDatabase('mydb', '1.0', 'borrar', 2 * 1024 * 1024);
+				
+				db.transaction(function (tx) {
+					tx.executeSql('DROP TABLE provincias');
+				});
+		
+				db.transaction(function (tx) {
+					var sc = "CREATE TABLE IF NOT EXISTS provincias (" +
+						"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+						"id_provincia INTEGER, " +
+						"provincia VARCHAR(200))";
+					tx.executeSql(sc);
+				});
+				
+				
+				db.transaction(function (tx) {
+					sc = "INSERT INTO `provincias` (`id_provincia`, `provincia`) VALUES(30, 'Murcia')";
+					tx.executeSql(sc);
+					
+					sc = "INSERT INTO `provincias` (`id_provincia`, `provincia`) VALUES(41, 'Sevilla')";
+					tx.executeSql(sc);
+				});
+				
+
+				document.querySelector("#btPintar").onclick=pintaDatos;
+				document.querySelector("#btn").onclick=function(){
+				db.transaction(function(tx){
+					let num = document.getElementById('numero').value;
+					let pro = document.getElementById('provincia').value;
+					tx.executeSql('INSERT INTO `provincias` (`id_provincia`, `provincia`) VALUES(?,?)',[num,pro]);
+					
+				 })
+				 pintaDatos();
+			};
+			}
+
+			
+			
+			
+			function pintaDatos(){
+				 db.transaction(function(tx){
+					tx.executeSql('Select * from provincias',[],function(tx,datos){
+						let a =document.querySelector('#sal');
+						a.innerHTML ="";
+						for (let i = 0; i < datos.rows.length; i++) {
+							a.innerHTML +="<p>"+ datos.rows[i].id_provincia + " "+ datos.rows[i].provincia + "</p>";
+						}
+					});
+					
+				 })
+			}
+      
+    </script>
+  </head>
+  
+  <body>
+
+    <h3>Pintamos los datos: </h3>
+		
+		<button id="btPintar">Pintar datos</button>
+		
+		<p>
+			<div id="sal"> </div>
+    </p>
+	
+	<p>Numero<input type="text" id="numero"></p>
+	<p>provincia<input type="text" id="provincia"></p>
+	<button id="btn">Guardar</button>
+  </body>
+  
+</html>
+

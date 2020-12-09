@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0">
+  	<style type="text/css">
+  	/* TENEMOS QUE DARLE UN TAMAÑO AL DIV QUE CONTIENE EL MAPA. SI NO, NO SE VERÁ  */
+      #divmapa {
+      	width: 700px;
+      	height: 700px;
+      	border: 1px solid blue; 
+     	}
+    </style>
+    
+  	
+    <title>API v3 de Google Maps. Ejemplo Básico</title>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdQnfpz5vuzfPjLZZUYoR3XGf_Pen6Ysg"
+  type="text/javascript"></script>
+  <script>
+
+
+window.onload = ()=>{
+  let map;
+  cargarMapa();
+  test();
+} ;
+
+function test(){
+if (navigator.geolocation) {
+      		var geo = navigator.geolocation;
+      		seguimiento = geo.watchPosition(muestraLoc, muestraErr);
+        } 
+}
+function muestraLoc(pos) {
+  var opciones={
+    center:{ lat:pos.coords.latitude, lng: pos.coords.longitude },
+    zoom: 18,
+    mapTypeId: 'terrain'
+    }
+  map = new google.maps.Map(document.getElementById('divmapa'), opciones);
+
+  new google.maps.Marker({
+    position:  { lat:pos.coords.latitude, lng: pos.coords.longitude },
+    map,
+    title: "Illo mi tuto",
+  })
+}
+function muestraErr(error) {
+    	var errores = { 
+   			1: 'Permission denied',
+   			2: 'Position unavailable',
+   			3: 'Request timeout'
+ 			};
+}
+
+
+function cargarMapa(){ 
+
+
+}
+    </script>
+
+  </head>
+  
+  <body>
+    
+    <h3>API v3 de Google Maps. Ejemplo Básico</h3>
+    <p>
+    	<button id="btCargarMapa">Cargar Mapa</button>
+    </p>
+    <p>
+    	<div id="divmapa">
+    		Aquí pondremos el mapa
+    	</div>
+    </p>
+  </body>
+  
+</html>

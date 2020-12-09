@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        #map{
+            height: 700px;
+            width: 1520px;
+        }
+    </style>
+    <script
+      async
+      defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdQnfpz5vuzfPjLZZUYoR3XGf_Pen6Ysg&callback=initMap"
+      type="text/javascript"
+    ></script>
+    <script>
+      var map,infowindow;
+    
+      function initMap() {
+        map = new google.maps.Map(document.getElementById("map"), {
+          center: { lat: 37.3917918, lng: -5.9903276 },
+          zoom: 17,
+        });
+
+        infowindow = new google.maps.InfoWindow({
+            map:map,
+        })
+
+        google.maps.event.addListener(map,'click',function(e){
+          ponerPuntos(e.latLng,map);
+      });
+
+      google.maps.event.addListener(map,'zoom_changed',function(e){
+        console.log("2")
+        infowindow.setContent("<br>Nivel de zoom "+ map.zoom)
+      });
+      
+      } 
+      function ponerPuntos(pos,mapa){
+        console.log(infowindow)
+        infowindow.setPosition(pos);
+        infowindow.setContent( "latitud "+pos.lat()+"<br>longnitud "+pos.lng()+"<br>Nivel de zoom "+ map.zoom)
+      }
+
+        
+    </script>
+  </head>
+  <body>
+      <div id="map"></div>
+  </body>
+</html>

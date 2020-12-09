@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0">
+  	<style type="text/css">
+  	/* TENEMOS QUE DARLE UN TAMAÑO AL DIV QUE CONTIENE EL MAPA. SI NO, NO SE VERÁ  */
+      #divmapa {
+      	width: 700px;
+      	height: 700px;
+      	border: 1px solid blue; 
+     	}
+    </style>
+    
+  	
+    <title>API v3 de Google Maps. Ejemplo Básico</title>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdQnfpz5vuzfPjLZZUYoR3XGf_Pen6Ysg"
+  type="text/javascript"></script>
+  <script>
+
+
+window.onload = ()=>{
+  let map;
+  cargarMapa();
+} ;
+
+function cargarMapa(){ 
+  map = new google.maps.Map(document.getElementById('divmapa'), {
+    center: { lat:37.3917918, lng:  -5.9903276 },
+    zoom: 18,
+    mapTypeId: 'terrain'
+  });
+  new google.maps.Marker({
+    position:  { lat:37.3917918, lng: -5.9903276 },
+    map,
+    title: "Illo mi tuto",
+  });
+
+  new google.maps.InfoWindow({
+    position:  { lat:37.3915918, lng: -5.9903276 },
+    map,
+    content: '<iframe aria-hidden="true" frameborder="0" tabindex="-1" style="z-index: -1; position: absolute; width: 100%; height: 100%; top: 0px; left: 0px; border: none;"></iframe>',
+  })
+
+}
+    </script>
+
+  </head>
+  
+  <body>
+    
+    <h3>API v3 de Google Maps. Ejemplo Básico</h3>
+    <p>
+    	<button id="btCargarMapa">Cargar Mapa</button>
+    </p>
+    <p>
+    	<div id="divmapa">
+    		Aquí pondremos el mapa
+    	</div>
+    </p>
+  </body>
+  
+</html>
