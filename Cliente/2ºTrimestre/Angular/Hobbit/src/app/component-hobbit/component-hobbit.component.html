@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    
+    <section>
+        <p>Lista de Hobbits</p>
+        <ul>
+            <li *ngFor="let item of hobbits">
+                {{item}}
+            </li>
+        </ul>   
+    </section>
+    <input type="text" placeholder="Ingresa un Hobbit" [(ngModel)]="newHobbit">
+    <button (click)="addHobbit()">{{accion.nombre}} hobbit</button>
+    <button *ngIf="show" (click)="cancel()">Cancelar</button>
+    <section>
+        <table *ngIf="hobbits.length > 0"> 
+            <thead>
+                <th>Nombre</th>
+                <th>Accion</th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of hobbits; let i = index">
+                    <td>{{item}}</td>
+                    <td>
+                        <button (click)="editHobbit(i)">Editar</button>
+                        <button (click)="delHObbit(i)">Borrar</button>
+                    </td>
+                </tr>
+                
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>Total hobbits: </td>
+                    <td>{{hobbits.length}}</td>
+                </tr>
+            </tfoot>
+        </table>
+</section>
+</body>
+</html>

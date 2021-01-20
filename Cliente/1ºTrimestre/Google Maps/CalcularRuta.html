@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #map {
+        height: 700px;
+        width: 1520px;
+      }
+    </style>
+    <script
+      async
+      defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdQnfpz5vuzfPjLZZUYoR3XGf_Pen6Ysg&callback=initMap"
+      type="text/javascript"
+    ></script>
+    <script>
+        var map;
+        var directionsService ;
+        var directionsRenderer;
+        function initMap() {
+        directionsService = new google.maps.DirectionsService();
+        directionsRenderer = new google.maps.DirectionsRenderer();
+          map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: 37.3917918, lng: -5.9903276 },
+            zoom: 17,
+          });
+          directionsRenderer.setMap(map);
+        }
+        
+
+      function calculaRuta(){
+          console.log('2')
+          let origen = document.getElementById('origen').value;
+          let destino = document.getElementById('destino').value;
+          let opc = {
+            origin: origen,
+            destination: destino,
+            optimizeWaypoints: true,
+            travelMode: google.maps.TravelMode.DRIVING,
+          };
+          directionsService.route(opc,(response, status) => {
+            if (status === "OK") {
+                directionsRenderer.setDirections(response);
+            }
+          })
+        }
+
+        window.onload =()=>{
+            document.getElementById('btn').onclick=calculaRuta;
+        };
+    </script>
+  </head>
+  <body>
+    <div>
+      <p>origen</p>
+      <input type="text" id="origen" value="sevilla"/>
+      <p>Destino</p>
+      <input type="text" id="destino" value="madrid"/>
+      <p><button id="btn">Calcular</button></p>
+    </div>
+
+    <div id="map"></div>
+  </body>
+</html>

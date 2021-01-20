@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <script src="../../jquery-3.5.1.min.js"></script>
+    <script src="../../jquery-ui-1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="../../jquery-ui-1.12.1/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <style>
+      label, input { display:block; }
+      input.text { margin-bottom:12px; width:95%; padding: .4em; }
+      fieldset { padding:0; border:0; margin-top:25px; }
+      h1 { font-size: 1.2em; margin: .6em 0; }
+      div#users-contain { width: 350px; margin: 20px 0; }
+      div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
+      div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+      .ui-dialog .ui-state-error { padding: .3em; }
+      .validateTips { border: 1px solid transparent; padding: 0.3em; }
+    </style>
+    <script>
+
+      window.onload = () => {
+        test();
+
+        document.getElementById("btn_add").onclick = function () {
+          document.querySelector("#form_add").style.visibility = "visible";
+        };
+        document.querySelector("fieldset > button").onclick = aniadirPersonas;
+      };
+
+      function borrarPersonas() {
+        let borrar = {
+          servicio: "borrar",
+          id: this.dataset.idper,
+        };
+        if (confirm(`Desea borrar a ${this.dataset.nomper}`)) {
+          $.ajax({
+          url: "servidor.php",
+          data:JSON.stringify(borrar),
+          type:"post",
+          dataType:"json",
+          success:test,
+          error: function() {
+                console.log("No se ha podido obtener la información");
+            }
+        });
+        }
+      }
+
+      function test(){
+        $.ajax({
+          url: "servidor.php",
+          data:JSON.stringify({"servicio":"listar"}),
+          type:"post",
+          dataType:"json",
+          success:pintarPersonas,
+          error: function() {
+                console.log("No se ha podido obtener la información");
+            }
+        });
+      }
+
+      const aniadirPersonas = () => {
+        let ingresar = {
+          servicio: "insertar",
+          dni: document.querySelector("#dni").value,
+          nombre: document.querySelector("#nombre").value,
+          apellidos: document.querySelector("#apellidos").value,
+        };
+        $.ajax({
+          url: "servidor.php",
+          data:JSON.stringify(ingresar),
+          type:"post",
+          dataType:"json",
+          success:test,
+          error: function() {
+                console.log("No se ha podido obtener la información");
+            }
+        });
+      };
+
+      function editaPersona(){
+        document.querySelector("#dni").value = this.dataset.idper;
+        document.querySelector("#nombre").value = this.dataset.nomper;
+        document.querySelector("#apellidos").value = this.dataset.apeper;
+        let ingresar = {
+          servicio: "modificar",
+          DNI: document.querySelector("#dni").value,
+          NOMBRE: document.querySelector("#nombre").value,
+          APELLIDOS: document.querySelector("#apellidos").value,
+        };
+        document.querySelector('#form_mod > button').onclick= function(){
+        peticionAJAX("PUT", url, ingresar, (datos) => {
+          pintarPersonas(datos);
+        });}
+      };
+
+      function pintarPersonas(datos) {
+        console.log(datos);
+        let cuerpo = document.querySelector("#filas_tabla");
+        cuerpo.innerHTML = "";
+        for (persona of datos) {
+          var fila = document.createElement("tr");
+          for (i in persona) {
+            var columna = document.createElement("td");
+            columna.innerHTML = persona[i];
+            fila.append(columna);
+          }
+
+          columna = document.createElement("td");
+          let boton = document.createElement("button");
+          boton.dataset.idper = persona.id;
+          boton.dataset.nomper = persona.nombre;
+          boton.onclick = borrarPersonas;
+          boton.innerText = "Borrar";
+          columna.append(boton);
+          fila.append(columna);
+
+          columna = document.createElement("td");
+          let boton2 = document.createElement("button");
+          boton2.dataset.idper = persona.id;
+          boton2.dataset.nomper = persona.nombre;
+          boton2.dataset.apeper =persona.apellidos;
+          boton2.onclick = function (e) {
+              let a = this;
+              document.querySelector('#form_mod').style.visibility = 'visible';
+              document.querySelector('#form_mod').
+              editaPersona(a);
+              return false;
+          };
+          boton2.innerText = "Editar";
+          columna.append(boton2);
+
+          fila.append(columna);
+          cuerpo.append(fila);
+        }
+      }
+
+
+ 
+    dialog = $( "#dialog-form" ).dialog({
+      autoOpen: false,
+      height: 400,
+      width: 350,
+      modal: true,
+      buttons: {
+        "Create an account": addUser,
+        Cancel: function() {
+          dialog.dialog( "close" );
+        }
+      },
+      close: function() {
+        form[ 0 ].reset();
+        allFields.removeClass( "ui-state-error" );
+      }
+    });
+ 
+    form = dialog.find( "form" ).on( "submit", function( event ) {
+      event.preventDefault();
+      addUser();
+    });
+ 
+    $( "#btn_add" ).button().on( "click", function() {
+      dialog.dialog( "open" );
+    });
+    </script>
+
+    <style>
+
+    </style>
+  </head>
+  <body>
+    <h1>Registro de Usuarios</h1>
+    <button id="btn_add">Nueva Persona</button>
+
+    <div id="dialog-form" title="Create new user">
+      <p class="validateTips">All form fields are required.</p>
+      <form id="form_add" class="form_add">
+        <fieldset>
+        <label for="dni">DNI:</label>
+        <input type="text" id="dni" name="dni" value="asdf" />
+        <label for="nombre">NOMBRE:</label>
+        <input type="text" id="nombre" name="nombre" value="Marco Elio" />
+        <label for="apellidos">APELLIDOS:</label>
+        <input type="text" id="apellidos" name="apellidos" value="García Gomariz"/>
+        <button >Añadir</button>
+        <button >Cancelar</button>
+    </fieldset>
+    </form>
+  </div>
+
+    <br />
+    <br />
+    <form>
+      <div id="users-contain" class="ui-widget">
+      <table class ="ui-widget ui-widget-content" id="tabla_personas" border="1">
+        <thead>
+          <tr class="ui-widget-header ">
+            <th>ID</th>
+            <th>DNI</th>
+            <th>NOMBRE</th>
+            <th>APELLIDOS</th>
+            <th>BORRARs</th>
+            <th>EDITAR</th>
+          </tr>
+        </thead>
+
+        <tbody id="filas_tabla"></tbody>
+      </table>
+    </div>
+    </form>
+  </body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>jQuery UI Dialog - Modal form</title>
+    <link
+      rel="stylesheet"
+      href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
+    />
+    <link rel="stylesheet" href="/resources/demos/style.css" />
+    <style>
+      label,
+      input {
+        display: block;
+      }
+      input.text {
+        margin-bottom: 12px;
+        width: 95%;
+        padding: 0.4em;
+      }
+      fieldset {
+        padding: 0;
+        border: 0;
+        margin-top: 25px;
+      }
+      h1 {
+        font-size: 1.2em;
+        margin: 0.6em 0;
+      }
+      div#users-contain {
+        width: 350px;
+        margin: 20px 0;
+      }
+      div#users-contain table {
+        margin: 1em 0;
+        border-collapse: collapse;
+        width: 100%;
+      }
+      div#users-contain table td,
+      div#users-contain table th {
+        border: 1px solid #eee;
+        padding: 0.6em 10px;
+        text-align: left;
+      }
+      .ui-dialog .ui-state-error {
+        padding: 0.3em;
+      }
+      .validateTips {
+        border: 1px solid transparent;
+        padding: 0.3em;
+      }
+    </style>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+      var dialog;
+      $(function () {
+        test();
+
+        var form;
+        aniadirPersonas = () => {
+          let ingresar = {
+            servicio: "insertar",
+            dni: $("#dni").val(),
+            nombre: $("#nombre").val(),
+            apellidos: $("#apellidos").val(),
+          };
+          $.ajax({
+            url: "servidor.php",
+            data: JSON.stringify(ingresar),
+            type: "post",
+            dataType: "json",
+            success: test,
+            error: function () {
+              console.log("No se ha podido obtener la información");
+            },
+          });
+          dialog.dialog("close");
+        };
+
+         dialog = $("#dialog-form").dialog({
+          autoOpen: false,
+          height: 400,
+          width: 350,
+          modal: true,
+          buttons: {
+            "Añadir persona": aniadirPersonas,
+            Cancelar: function () {
+              dialog.dialog("close");
+            },
+          },
+          close: function () {},
+        });
+
+        form = dialog.find("form").on("submit", function (event) {
+          event.preventDefault();
+          addUser();
+        });
+
+        $("#create-user")
+          .button()
+          .on("click", function () {
+            dialog.dialog("open");
+          });
+      });
+
+      function test() {
+        $('#dialog-form').attr('title', 'Añadir persona');
+        $.ajax({
+          url: "servidor.php",
+          data: JSON.stringify({ servicio: "listar" }),
+          type: "post",
+          dataType: "json",
+          success: pintarPersonas,
+          error: function () {
+            console.log("No se ha podido obtener la información");
+          },
+        });
+      }
+      function pintarPersonas(datos) {
+    
+        let cuerpo = $("#filas_tabla");
+        cuerpo.html("");
+        for (persona of datos) {
+          var fila = $("<tr>");
+          for (i in persona) {
+            var columna = $("<td>");
+            columna.html(persona[i]);
+            fila.append(columna);
+          }
+
+          columna =$("<td>");
+          let boton = $("<button>");
+          boton.data("idper", persona.id);
+          boton.data("nomper", persona.nombre);
+          boton.click(borrarPersonas);
+          boton.html("Borrar");
+          columna.append(boton);
+          fila.append(columna);
+
+          columna =$("<td>");
+          boton =$("<button>");
+          
+          boton.data("idper", persona.id);
+          boton.data("nomper", persona.nombre);
+          boton.data("apeper", persona.apellidos);
+          boton.data("dniper", persona.dni);
+          boton.click(editaPersona);
+          
+          boton.html("Editar");
+          columna.append(boton);
+
+          fila.append(columna);
+          cuerpo.append(fila);
+        }
+      }
+
+      function borrarPersonas() {
+        console.log($(this).data("idper"))
+        console.log($(this).data("nomper"))
+        let borrar = {
+          servicio: "borrar",
+          id: $(this).data("idper"),
+        };
+        if (confirm('Desea borrar a ' + $(this).data("nomper"))) {
+          $.ajax({
+            url: "servidor.php",
+            data: JSON.stringify(borrar),
+            type: "post",
+            dataType: "json",
+            success: test,
+            error: function () {
+              console.log("No se ha podido obtener la información");
+            },
+          });
+        }
+      }
+
+      function editaPersona(){
+        $('#dialog-form').prop('title', 'Modificar persona');
+        $("#dni").data("id", $(this).data("idper"));
+        $("#dni").val($(this).data("dniper"));
+        $("#nombre").val($(this).data("nomper"));
+        $("#apellidos").val($(this).data("apeper"));
+        
+        dialog.dialog({
+                autoOpen: true,
+                height: 400,
+                width: 350,
+                modal: true,
+                buttons: {
+                  "Modificar":enviaEdit,  
+                  "Cancelar": function () {
+                    dialog.dialog("close");
+                  },
+                },
+                close: function () {},
+              });
+              
+            }
+      function enviaEdit(){
+          let modificar = {
+            servicio: "modificar",
+            dni: $("#dni").val(),
+            nombre: $("#nombre").val(),
+            apellidos: $("#apellidos").val(),
+            id: $("#dni").data("id")
+        };
+          $.ajax({
+            url: "servidor.php",
+            data: JSON.stringify(modificar),
+            type: "post",
+            dataType: "json",
+            success: test,
+            error: function () {
+              console.log("No se ha podido obtener la información modi");
+            },
+          });
+          dialog.dialog("close");
+      };
+
+    </script>
+  </head>
+  <body>
+    <button id="create-user">Añadir nuevo usuario</button>
+    <div id="dialog-form" title="Create new user">
+      <form>
+        <fieldset>
+          <label for="name">DNI:</label>
+          <input
+            type="text"
+            name="dni"
+            id="dni"
+            value="Jane Smith"
+            class="text ui-widget-content ui-corner-all"
+          />
+          <label for="email">Nombre:</label>
+          <input
+            type="text"
+            name="nombre"
+            id="nombre"
+            value="jane@smith.com"
+            class="text ui-widget-content ui-corner-all"
+          />
+          <label for="password">Apellidos:</label>
+          <input
+            type="text"
+            name="apellidos"
+            id="apellidos"
+            value="xxxxxxx"
+            class="text ui-widget-content ui-corner-all"
+          />
+
+          <!-- Allow form submission with keyboard without duplicating the dialog button -->
+          <input
+            type="submit"
+            tabindex="-1"
+            style="position: absolute; top: -1000px"
+          />
+        </fieldset>
+      </form>
+    </div>
+
+    <div id="users-contain" class="ui-widget">
+      <table id="users" class="ui-widget ui-widget-content" id="tabla_personas">
+        <thead>
+          <tr class="ui-widget-header">
+            <th>ID</th>
+            <th>DNI</th>
+            <th>NOMBRE</th>
+            <th>APELLIDOS</th>
+            <th>BORRAR</th>
+            <th>EDITAR</th>
+          </tr>
+        </thead>
+        <tbody id="filas_tabla"></tbody>
+      </table>
+    </div>
+  </body>
+</html>

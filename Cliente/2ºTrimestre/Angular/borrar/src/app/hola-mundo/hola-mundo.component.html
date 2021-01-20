@@ -1,0 +1,25 @@
+<div>
+
+    <h1>{{titulico}}</h1>
+    <h3>{{cosicas}}</h3>
+    <ul>
+        <li *ngFor='let esencia of cosicas'>
+            {{esencia}}
+        </li> 
+    </ul>
+    <ul>
+        <app-cosas [nombreCosa] = "titulico"></app-cosas>
+        <app-cosas [nombreCosa] = "'titulico'"></app-cosas>
+        <app-cosas *ngFor="let item of cosicas"  [nombreCosa] = 'item'></app-cosas>
+    </ul>
+
+    <p><input type="text" [(ngModel)]="binding"></p>
+    <button (click) = cambiar()>Cambiar</button>
+    <p>{{binding}}</p>
+
+
+    <button (click)="suma()">Suma</button>
+    <p>{{count}}</p>
+    
+</div>
+ 

@@ -1,0 +1,10 @@
+
+<select [(ngModel)]="opSel" (ngModelChange)="seleccion($event)">
+    <option *ngFor="let item of opciones" [ngValue]="item">{{item.op}}</option>
+</select>
+
+<div *ngIf="opSel">
+    <p>Has selecccionado {{opSel.op}}. Valor: {{opSel.id}}.</p>
+
+    <pre>{{opSel | json}}</pre>
+</div>

@@ -47,6 +47,10 @@ build/Release
 # Dependency directories
 node_modules/
 
+#Django
+
+Django/
+
 # Optional npm cache directory
 .npm
 

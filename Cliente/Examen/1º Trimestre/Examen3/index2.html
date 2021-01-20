@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8"/>
+    
+    <title>Examen 3. 1ª Evaluación. DWEC</title>
+    
+		<style>
+		fieldset{
+			width: 400px;
+			margin-top: 2em;
+			margin-bottom: 1em;
+			margin-left: 1em;
+		}
+		
+		fieldset label{
+			width: 4.5em;
+			display: inline-block;
+		}
+		
+		
+		</style>
+		
+   
+    <script type="text/javascript">
+
+		window.onload = ()=>{
+			let prueba = "";
+			prueba.length
+		getSendJsonData('facturas',(data)=>{
+			fillSelect()
+		})
+		document.querySelector('#btCancelar').onclick = ()=>{
+			document.querySelector('#cantidad').value = "";
+			document.querySelector('#concepto').value = "";
+			document.querySelector('#tipo_iva').value = "";
+			document.querySelector('#precio').value = "";
+			if(document.querySelector('#btAnade').dataset.idMod != ""){
+				document.querySelector('#btAnade').dataset.idMod = "";
+				document.querySelector('#btAnade').innerHTML = "Añadir Linea Detalle";
+			}
+		}
+		document.querySelector('#btAnade').onclick = ()=>{
+			let cantidad =  document.querySelector('#cantidad').value;
+			let concepto = document.querySelector('#concepto').value;
+			let tipoIva = document.querySelector('#tipo_iva').value;
+			let precio = document.querySelector('#precio').value;
+			
+			if(document.querySelector('#btAnade').dataset.idMod != ""){
+				let id = document.querySelector('#btAnade').dataset.idMod;
+				getSendJsonData('modificarDetalle',(data)=>fillTable("",data),{
+					"cantidad":cantidad,
+					"concepto":concepto,
+					"tipo_iva":tipoIva,
+					"precio":precio,
+					"id":id,
+					"idFactura":Array.from(document.querySelector('#factura').options).find(option => option.selected == true).value
+				})
+				document.querySelector('#btAnade').innerHTML = "Añadir Linea Detalle";
+			}else{
+				getSendJsonData('anade',(data)=>fillTable("",data),{
+				"cantidad":cantidad,
+				"concepto":concepto,
+				"tipo_iva":tipoIva,
+				"precio":precio,
+				"idFactura": Array.from(document.querySelector('#factura').options).find(option => option.selected == true).value
+			})	
+			}
+		}
+		document.querySelector('#factura').onchange = function(){
+			fillTable(Array.from(document.querySelector('#factura').options).find(option => option.selected == true).value)
+		}
+		document.addEventListener('click',function(e){
+            if(e.target.id === "btBorrar"){
+                if(confirm("¿Estas seguro de que quieres eliminar el registro?")){
+                    getSendJsonData("borra",(data)=>fillTable("",data),{
+						"idFactura": Array.from(document.querySelector('#factura').options).find(option => option.selected == true).value,
+						"id":e.path[2].childNodes[0].innerHTML,
+					});
+                }
+            }
+            if(e.target.id === "btMod"){
+				document.querySelector('#btAnade').innerHTML = "Modificar Linea Detalle";
+				let cantidad = document.querySelector('#cantidad').value = e.path[2].childNodes[1].innerHTML;
+				let concepto = document.querySelector('#concepto').value = e.path[2].childNodes[2].innerHTML;
+				let tipoIva = document.querySelector('#tipo_iva').value = e.path[2].childNodes[3].innerHTML;
+				let precio = document.querySelector('#precio').value = e.path[2].childNodes[4].innerHTML;
+				document.querySelector('#btAnade').dataset.idMod = e.path[2].childNodes[0].innerHTML;
+            }
+        })
+		}
+		function fillTable(idFactura="",data={}){
+			table = document.querySelector('#detalle');
+            tBodyFilas = document.querySelector('#filas_tabla');
+            if(tBodyFilas.hasChildNodes()){
+                tBodyFilas.remove();
+                tBodyFilas = document.createElement('tbody',{id:"filas_tabla"});
+                tBodyFilas.id = "filas_tabla";
+                table.append(tBodyFilas);
+            }
+			if(idFactura.length < 1){
+				console.log(data);
+				fillTrTd(data,tBodyFilas)
+				calcTotalIva()
+			}else{
+				getSendJsonData('detalle',(data)=>{
+					fillTrTd(data,tBodyFilas)
+					calcTotalIva()
+				},{idFactura:idFactura})
+			}
+			
+		}
+		function calcTotalIva(){
+			let tIva = document.querySelector('#Tiva');
+			let tTotal = document.querySelector('#Ttotal');
+			let tBody = document.querySelector('#filas_tabla')
+			console.log(tBody.childNodes);
+			let totalIva = 0;
+			
+			let total = 0;
+			for(let i = 0; i < tBody.childNodes.length; i++){
+				if(tBody.childNodes[i].childNodes[4].innerHTML.length == 2){
+					totalIva += parseInt(tBody.childNodes[i].childNodes[4].innerHTML.substr(0,1))
+				}else{	
+					totalIva += parseInt(tBody.childNodes[i].childNodes[4].innerHTML.substr(0,2));
+				}
+				console.log(tBody.childNodes[i].childNodes[5].innerHTML);
+				total += parseFloat(tBody.childNodes[i].childNodes[5].innerHTML);
+				
+			}
+			tIva.innerHTML = totalIva + "%"
+			tTotal.innerHTML = total;
+		}
+		function fillTrTd(data,tbody){
+            let ordenar =  ['ID','CANTIDAD',"CONCEPTO","PRECIO","TIPO_IVA"];
+			for (object of data) {
+                let tr = document.createElement('tr');
+                for (let i = 0; i < ordenar.length;i++) {
+                        let td = document.createElement('td');
+						if(ordenar[i] === ordenar[4]){
+                        	td.innerHTML = object[ordenar[i]]+"%";
+						}else{
+                        	td.innerHTML = object[ordenar[i]];
+						}
+                        tr.append(td);
+						
+                }
+				calcIva(object,tr);
+                let tdBorrar = document.createElement('td');
+                tdBorrar.innerHTML = "<button id='btBorrar'>Del</button>";
+                let tdMod = document.createElement('td');
+                tdMod.innerHTML = "<button id='btMod'>Mod</button>";
+                tr.append(tdMod);
+                tr.append(tdBorrar);
+                tBodyFilas.append(tr);
+				
+            }
+		}
+		function calcIva(detalle,fila){
+			let iva = document.createElement('td');
+			let total = document.createElement('td');
+			iva.innerHTML = (((detalle.CANTIDAD * detalle.PRECIO) * detalle.TIPO_IVA)/100).toFixed(2);
+			total.innerHTML = ((detalle.CANTIDAD*detalle.PRECIO) - iva.innerHTML).toFixed(2);
+			fila.append(iva);
+			fila.append(total);
+		}
+		function fillSelect(){
+			getSendJsonData('facturas',(data)=>{
+                for (object of data) {
+                    let optionContainer = document.querySelector('#factura');
+                    let option = new Option(`Factura: ${object.NUMERO}. Fecha: ${object.FECHA}`,object.ID);
+                    optionContainer.append(option);
+                }
+            })
+		}
+		function getSendJsonData(prueba,callBack,parameters={}){
+            let data;
+			console.log(Object.assign({"servicio":prueba},parameters));
+            fetch('http://localhost/ajax/examen/Examen3/servidor.php',{
+            method: 'POST',
+            headers: new Headers({
+                'Content-Type' : 'application/json'
+            }),
+            body: JSON.stringify(( Object.entries(parameters)===0) ? {"servicio":prueba} : Object.assign({"servicio":prueba},parameters)),
+            })
+            .then(res => res.json())
+            .then(result=>callBack(result));
+        }
+    </script>
+  </head>
+  
+  <body>
+  	
+    <h1>Examen 3. 1ª Evaluación. DWEC</h1>
+    <h3>Consulta de Facturas</h3>
+    <div>
+    	<p>
+		    <select id="factura">
+		    	<option value="-1">Selecciona una factura para consultar su detalle</option>
+		    </select>
+    	</p>
+    </div>
+    <div>
+    	Detalle de la factura:
+    	<p>
+		    <table id="detalle" border="1">
+		    	<thead>
+		    		<tr>
+		    			<th>ID</th>
+		    			<th>CANTIDAD</th>
+		    			<th>CONCEPTO</th>
+		    			<th>PRECIO</th>
+		    			<th>Tipo IVA</th>
+		    			<th>IVA</th>
+		    			<th>TOTAL</th>
+							<th>Modificar</th>
+							<th>Borrar</th>
+		    		</tr>
+		    	</thead>
+					
+		    	<tbody id="filas_tabla">
+
+						
+		    	</tbody>
+					
+					
+		    	<tfoot>
+		    		<tr>
+		    			<td colspan="5">TOTALES: </td>
+		    			<td id="Tiva">suma iva</td>
+		    			<td id="Ttotal">suma TOTAL</td>
+		    		</tr>
+		    	</tfoot>
+		    </table>
+    	</p>
+    </div>
+		
+		<div>
+			<fieldset>
+				<legend id="league">Añadir detalle</legend>
+				<p>
+					<label for="cantidad">Cantidad: </label>
+					<input type="text" id="cantidad" size="3" value="5" />
+				</p>
+				<p>
+					<label for="concepto">Concepto: </label>
+					<input type="text" id="concepto" size="44" value="Nuevo detalle" />
+				</p>
+				<p>
+					<label for="precio">precio: </label>
+					<input type="text" id="precio" size="4" value="25" /> €
+				</p>
+				
+				<p>
+					<label for="tipo_iva">Tipo IVA: </label>
+					<input type="text" id="tipo_iva" size="2" value="21" /> %
+				</p>
+			
+			</fieldset>
+			
+			<button id="btAnade" data-idld="-1">Añadir línea de detalle</button> 
+			
+			<button id="btCancelar" >Cancelar</button> 
+		
+		</div>
+    
+  </body>
+</html>
