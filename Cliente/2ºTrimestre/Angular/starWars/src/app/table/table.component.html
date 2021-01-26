@@ -1,0 +1,24 @@
+<div *ngIf="data != null">
+<table>
+    <thead>
+      <td>Nombre</td>
+      <td>Altura</td>
+      <td>Peso</td>
+      <td>Año nacimiento</td>
+      <td>Planeta</td>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of data.results">
+            <td>{{item.name}}</td>
+            <td>{{item.height}}</td>
+            <td>{{item.mass}}</td>
+            <td>{{item.birth_year}}</td>
+            <td><a href="{{item.homeworld}}" (click)="planeta($event)">{{item.homeworld}}</a></td>
+        </tr>
+    </tbody>
+  </table>
+  <button (click)="anterior()" [disabled]="!(data.previous)">Anterior</button>
+  <button (click)="siguiente()" [disabled]="!(data.next)">Siguiente</button>
+</div>
+
+<app-datos-planeta [urlPlanet]="this.urlPlaneta"></app-datos-planeta>

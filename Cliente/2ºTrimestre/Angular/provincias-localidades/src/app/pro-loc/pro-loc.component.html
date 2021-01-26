@@ -1,0 +1,14 @@
+<select  [(ngModel)]="opSel" (ngModelChange)="seleccion()">
+    <option *ngFor="let item of t"  [ngValue]='item'>
+        {{item.NOMBRE}}
+    </option>
+</select>
+<br>
+<div *ngIf="opSel.CODIGO != -1">
+    <h3>Seleecione una localidad</h3>
+<select >
+    <option *ngFor="let item of t2"  [ngValue]='item'>
+        {{item.NOMBRE}}
+    </option>
+</select>
+</div>

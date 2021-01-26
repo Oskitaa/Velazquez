@@ -1,0 +1,33 @@
+table,tr,td {
+    border: 1px solid #1630BE;
+    border-collapse: collapse;
+  }
+
+  table{
+    text-align: center;
+    box-shadow: 0px 0px 10px #1630BE;
+  }
+
+  button{
+    margin-top: 10px;
+    border:  #1630BE;
+    border-radius: 50px;
+    box-shadow: 0px 0px 10px #1630BE;
+    background: white;
+    outline: none;
+    padding: 4px;
+    cursor: pointer;
+  }
+
+  button:last-child{
+    margin-left: 10px;
+  }
+
+  button:disabled{
+      cursor: default;
+  }
+
+  li{
+    list-style: none;
+    border: 1px solid #1630BE;
+  }
