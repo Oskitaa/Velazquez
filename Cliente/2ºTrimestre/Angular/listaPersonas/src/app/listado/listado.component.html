@@ -1,0 +1,18 @@
+<p><button [routerLink]="['/persona-addmod/-1']" >Añadir</button></p>
+
+<table *ngIf="personas">
+    <thead>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Apellidos</th>
+        <th>DNI</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of personas">
+            <td>{{item.ID}}</td>
+            <td>{{item.NOMBRE}}</td>
+            <td>{{item.APELLIDOS}}</td>
+            <td>{{item.DNI}}</td>
+        </tr>
+    </tbody>
+</table>
