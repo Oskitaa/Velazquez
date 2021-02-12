@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { PajaxService } from '../pajax.service';
 import { Persona } from "../personas";
 @Component({
   selector: 'app-aniadir-persona',
@@ -8,9 +10,26 @@ import { Persona } from "../personas";
 export class AniadirPersonaComponent implements OnInit {
 
   public persona : Persona;
-  constructor() { }
+  txtBtn : string = "Añadir";
+  constructor(private peti: PajaxService, private router: Router,private arouter: ActivatedRoute) { 
+    this.persona = <Persona>{};
+  }
+
+  addMod(){
+    if(this.arouter.snapshot.params.id == -1){
+    this.peti.agregarPersonas(this.persona).subscribe(d => this.router.navigate(['/']));
+    } else {
+      this.peti.editarPersonas(this.persona).subscribe(d => this.router.navigate(['/']));
+    }
+    
+  }
 
   ngOnInit(): void {
+    if(this.arouter.snapshot.params.id != -1){
+      this.txtBtn = "Editar";
+      this.peti.selPersonaID(this.arouter.snapshot.params.id ).subscribe(datos => this.persona = datos);
+    } 
+    
   }
 
 }

@@ -1,0 +1,40 @@
+<div class="container" >
+    <h1 align="center">Añadir nuevo Owner</h1>
+
+<form #formulario="ngForm" (ngSubmit)="onSubmit(formulario.value)">
+
+    <div class="form-group">
+      <label for="firstName" >Nombre:</label>
+      <input type="text" class="form-control" id="firstName" name="firstName" required [(ngModel)]="owner.firstName" #firstName="ngModel">
+      <div [hidden]="firstName.valid || firstName.pristine" class="alert alert-danger">El nombre es obligatorio</div>
+    </div>
+
+    <div class="form-group">
+        <label for="lastName" >Apellidos:</label>
+        <input type="text" class="form-control" id="lastName" name="lastName" required [(ngModel)]="owner.lastName" #lastName="ngModel">
+        <div [hidden]="lastName.valid || lastName.pristine" class="alert alert-danger">El apellido es obligatorio</div>
+    </div>
+
+    <div class="form-group">
+        <label for="address" >Direccion:</label>
+        <input type="text" class="form-control" id="address" name="address" required [(ngModel)]="owner.address" #address="ngModel">
+        <div [hidden]="address.valid || address.pristine" class="alert alert-danger">La direccion es obligatoria.</div>
+    </div>
+
+    <div class="form-row">
+        <div class="col col-md-6 form-group">
+            <label for="city" >Ciudad:</label>
+            <input type="text" class="form-control" id="city" name="city" required [(ngModel)]="owner.city" #city="ngModel">
+            <div [hidden]="city.valid || city.pristine" class="alert alert-danger">La ciudad es obligatoria.</div>
+        </div>
+    
+        <div class=" col col-md-6 form-group">
+            <label for="telephone" >Telefono:</label>
+            <input type="text" class="form-control" id="telephone" name="telephone" required [(ngModel)]="owner.telephone" #telephone="ngModel">
+            <div [hidden]="telephone.valid || telephone.pristine" class="alert alert-danger">El telefono es obligatorio.</div>
+        </div>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary" [disabled]="!formulario.valid">{{etiqueta}}</button>
+  </form>
+</div>

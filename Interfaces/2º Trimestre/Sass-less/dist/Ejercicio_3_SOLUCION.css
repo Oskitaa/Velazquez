@@ -1,0 +1,104 @@
+ul,
+ul li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+h1,
+h2,
+h3,
+p,
+form {
+  margin: 0;
+  padding: 0;
+}
+.clear {
+  clear: both;
+}
+img {
+  border: none;
+}
+#contenedor {
+  width: 90%;
+  max-width: 900px;
+  width: 900px;
+  margin: 0 auto;
+}
+#cabecera,
+#menu,
+#lateral,
+#contenido,
+#contenido #principal,
+#contenido #secundario,
+#pie {
+  border: 2px solid #777;
+}
+#cabecera {
+  clear: both;
+  padding: 1em;
+}
+#cabecera #logo {
+  float: left;
+}
+#cabecera #buscador {
+  float: right;
+}
+#pie {
+  clear: both;
+}
+#pie .enlaces {
+  float: left;
+}
+#pie .copyright {
+  float: right;
+}
+#cabecera,
+#menu,
+#lateral,
+#lateral #noticias,
+#lateral #publicidad,
+#contenido,
+#contenido #principal,
+#contenido #secundario,
+#pie {
+  padding: 0.5em;
+}
+#menu {
+  clear: both;
+}
+#menu ul#menu_principal li {
+  display: inline;
+  float: left;
+}
+#contenido {
+  width: 77%;
+  padding: 0;
+  float: right;
+}
+#contenido #pie {
+  padding: 0.5em 0;
+  margin-top: 1em;
+}
+#contenido #principal {
+  width: 73%;
+  float: left;
+}
+#contenido #principal .articulo {
+  margin-bottom: 1em;
+}
+#contenido #principal .articulo img {
+  margin: 0.5em;
+  width: 100px;
+  float: left;
+}
+#contenido #secundario {
+  float: right;
+  width: 20%;
+}
+#lateral {
+  float: left;
+  width: 20%;
+}
+#lateral #publicidad {
+  margin-top: 1em;
+}

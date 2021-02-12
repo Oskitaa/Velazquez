@@ -1,8 +1,9 @@
-<form action="">
-    <p>Nombre: <input type="text" id="nombre"> </p>
-    <p>Apellidos: <input type="text" id="apellidos"></p>
-    <p>DNI: <input type="text" id="dni"></p>
-    <p><button type="submit">Añadir</button></p>
+<form>
+    <p>Nombre: <input type="text" name="nombre" [(ngModel)]="persona.NOMBRE" > </p>
+    <p>Apellidos: <input type="text" name="apellidos" [(ngModel)]="persona.APELLIDOS"></p>
+    <p>DNI: <input type="text" name="dni" [(ngModel)]="persona.DNI"></p>
+    <p><button (click)="addMod()">{{txtBtn}} persona</button></p>
     <p><button [routerLink]="['/']" routerLinkActive="router-link-active" >Cancelar</button></p>
+<button type="reset">Resetear</button>
 </form>
 

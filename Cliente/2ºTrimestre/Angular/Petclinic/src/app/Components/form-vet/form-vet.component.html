@@ -1,0 +1,26 @@
+<div class="container" >
+    <h1 align="center">Añadir nuevo Veterinario</h1>
+
+<form #formulario="ngForm" (ngSubmit)="onSubmit(formulario.value)">
+
+    <div class="form-group">
+      <label for="firstName" >Nombre:</label>
+      <input type="text" class="form-control" id="firstName" name="firstName" required [(ngModel)]="vet.firstName" #firstName="ngModel">
+      <div [hidden]="firstName.valid || firstName.pristine" class="alert alert-danger">El nombre es obligatorio</div>
+    </div>
+
+    <div class="form-group">
+        <label for="lastName" >Apellidos:</label>
+        <input type="text" class="form-control" id="lastName" name="lastName" required [(ngModel)]="vet.lastName" #lastName="ngModel">
+        <div [hidden]="lastName.valid || lastName.pristine" class="alert alert-danger">El apellido es obligatorio</div>
+    </div>
+
+    <div class="form-group">
+        <label for="specialties" >Especialidad:</label>
+        <input type="text" class="form-control" id="specialties" name="specialties" required [(ngModel)]="vet.specialties" #specialties="ngModel">
+        <div [hidden]="specialties.valid || specialties.pristine" class="alert alert-danger">La especialidad es obligatoria.</div>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary" [disabled]="!formulario.valid">Añadir</button>
+  </form>
+</div>

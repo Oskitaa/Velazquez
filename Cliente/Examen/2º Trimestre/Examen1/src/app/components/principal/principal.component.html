@@ -1,0 +1,18 @@
+<h1>Consulta de factutas</h1>
+
+<table border="1px solid">
+    <thead>
+        <th>ID</th>
+        <th>NUMERO</th>
+        <th>CLIENTE</th>
+        <th>FECHA</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of facturas">
+            <td>{{item.id}}</td>
+            <td><a routerLink="/factura/{{item.id}}/{{item.numero}}" routerLinkActive="router-link-active" >{{item.numero}}</a></td>
+            <td>{{item.id_cliente}}</td>
+            <td>{{item.fecha}}</td>
+        </tr>
+    </tbody>
+</table>

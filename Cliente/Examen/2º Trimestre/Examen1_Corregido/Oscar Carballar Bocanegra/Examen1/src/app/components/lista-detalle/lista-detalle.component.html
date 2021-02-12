@@ -1,0 +1,53 @@
+<style>
+    table,th,tr{
+        border: 1px solid;
+    }
+</style>
+
+<h1>Numero de factura {{num}}</h1>
+
+<table>
+    <thead>
+        <th>ID</th>
+        <th>CANTIDAD</th>
+        <th>CONCEPTO</th>
+        <th>PRECIO</th>
+        <th>TIPO IVA</th>
+        <th>IVA</th>
+        <th>TOTAL</th>
+        <th>EDITAR</th>
+        <th>BORRAR</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of detalles">
+            <th>{{item.id}}</th>
+            <th>{{item.cantidad}}</th>
+            <th>{{item.concepto}}</th>
+            <th>{{item.precio}}</th>
+            <th>{{item.tipo_iva}}</th>
+            <th>{{item.cantidad *item.precio *item.tipo_iva/100 | number}}€</th>
+            <th>{{item.cantidad *item.precio *item.tipo_iva/100 + item.cantidad *item.precio | number}}€</th>
+            <th><button (click)="changeSelc(item)">Editar</button></th>
+            <th><button (click)="deleteDetalle(item)">Borrar</button></th>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <th colspan="5">TOTALES</th>
+            <th>{{calcularIVa(detalles) | number}}€</th>
+            <th>{{calcularTotalIVa(detalles) | number}}€</th>
+        </tr>
+    </tfoot>
+</table>
+<p><a routerLink="/">Voler</a></p>
+<button (click)="ocularForm()">Nuevo detalle</button>
+<div *ngIf="hform">
+    <form>
+        <p>Cantidad:<input type="text" name="cantidad" [(ngModel)]="detalleSel.cantidad"></p>
+        <p>Concepto:<input type="text" name="concepto" [(ngModel)]="detalleSel.concepto"></p>
+        <p>Precio:<input type="text" name="precio" [(ngModel)]="detalleSel.precio"></p>
+        <p>Tipo de IVA:<input type="text" name="tipo_iva" [(ngModel)]="detalleSel.tipo_iva"></p>
+        <button type="submit" (click)="addMod()">{{txtBtn}} detalle</button>
+        <button type="submit" (click)="ocularForm()">Cancelar</button>
+    </form>
+</div>

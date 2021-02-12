@@ -14,16 +14,34 @@ export class PajaxService {
   listaPersonas(){
     return this.peti.post<Persona[]>(this.url,{"servicio":"listar"});
   }
-
   
   agregarPersonas(Persona : Persona){
-    body  = {
+    let body  = {
       "servicio": "insertar",
       "dni": Persona.DNI,
       "nombre" : Persona.NOMBRE,
       "apellidos" : Persona.APELLIDOS
   };
-    return this.peti.post<Persona[]>(this.url,body);
+    return this.peti.post<Persona>(this.url,body);
+  }
+
+  selPersonaID(id : number){
+    return this.peti.post<Persona>(this.url,{"servicio": "selPersonaID","id" : id});
+  }
+
+  editarPersonas(Persona : Persona){
+    let body  = {
+      "servicio": "modificar",
+      "dni": Persona.DNI,
+      "nombre" : Persona.NOMBRE,
+      "apellidos" : Persona.APELLIDOS,
+      "id" : Persona.ID
+  };
+    return this.peti.post<Persona>(this.url,body);
+  }
+
+  borrarPersona(id : number){
+    return this.peti.post<Persona[]>(this.url,{"servicio": "borrar","id" : id});
   }
 
 }

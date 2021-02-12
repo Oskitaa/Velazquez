@@ -1,3 +1,11 @@
+<style>
+    table{
+        text-align: center;
+    }
+    table,tr,td,th{
+        border: 1px black solid;
+    }
+</style>
 <p><button [routerLink]="['/persona-addmod/-1']" >Añadir</button></p>
 
 <table *ngIf="personas">
@@ -6,6 +14,7 @@
         <th>Nombre</th>
         <th>Apellidos</th>
         <th>DNI</th>
+        <th>Acciones</th>
     </thead>
     <tbody>
         <tr *ngFor="let item of personas">
@@ -13,6 +22,9 @@
             <td>{{item.NOMBRE}}</td>
             <td>{{item.APELLIDOS}}</td>
             <td>{{item.DNI}}</td>
+            <td><button routerLink="/persona-addmod/{{item.ID}}">Editar</button>
+            <button (click)="borrar(item)">Borrar</button></td>
         </tr>
     </tbody>
 </table>
+    

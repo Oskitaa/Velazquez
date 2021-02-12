@@ -1,0 +1,19 @@
+<div class="container text-center" align="center">
+    <table class="table table-striped col-md-5" align="center">
+        <tr class="col-md-3">
+        <th class="list-group-item">ID: {{owner.id}}</th>
+        <th class="list-group-item">NOMBRE: {{owner.firstName}}</th>
+        <th class="list-group-item">DIRECCION: {{owner.address}}</th>
+        <th class="list-group-item">APELLIDOS: {{owner.lastName}}</th>
+        <th class="list-group-item">CIUDAD: {{owner.city}}</th>
+        <th class="list-group-item">MASCOTAS: {{owner.pets}}</th>
+        <th class="list-group-item">TELEFONO: {{owner.telephone}}</th>
+        <th>
+                <button class="btn btn-primary" routerLink="/owners-add/{{owner.id}}">Editar</button>
+        </th>
+        <th>
+            <button class="btn btn-danger" (click)="deleteOwner(owner)" [disabled]="owner.pets?.length > 0">Eliminar</button>
+        </th>
+    </tr>
+    </table>
+</div>

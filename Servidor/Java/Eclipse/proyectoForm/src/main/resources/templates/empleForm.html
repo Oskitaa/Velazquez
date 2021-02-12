@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../webjars/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="../webjars/bootstrap/css/bootstrap.min.css">
+    <script src="../webjars/jquery/dist/jquery.min.js"></script>
+    <script src="../webjars/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../../webjars/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="../../webjars/bootstrap/css/bootstrap.min.css">
+    <script src="../../webjars/jquery/dist/jquery.min.js"></script>
+    <script src="../../webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+	
+ 	
+ 	<div class="container">
+		<form class="form-horizontal" method="post" 
+		th:action="${empEditInfo} ? @{/empleados/editEmp} : @{/empleados/new}" th:object="${empleadoForm}"
+		enctype="multipart/form-data">
+		<fieldset>
+		
+		<!-- Form Name -->
+		<legend th:text="${empEditInfo} ? 'Editar empleado' : 'Nuevo empleado' "></legend>
+		
+		<!-- Text input-->
+		<div class="form-group">
+		  <label class="col-md-4 control-label" for="id">Id</label>  
+		  <div class="col-md-4">
+			<input id="id" name="id" type="text" placeholder="Escribe su id" class="form-control input-md" th:readonly="${empEditInfo} ? ${empEditInfo.id}" th:value="${empEditInfo} ? ${empEditInfo.id}" >
+		    <span th:if="${#fields.hasErrors('id')}" th:error="*{id}")>Introduzca un ID valido</span>
+		  </div> 
+		</div>
+		
+		<!-- Text input-->
+		<div class="form-group">
+		  <label class="col-md-4 control-label" for="name">Nombre</label>  
+		  <div class="col-md-4">
+		  <input id="nombre" name="nombre" type="text" placeholder="Escribe su nombre" class="form-control input-md" th:value="${empEditInfo} ? ${empEditInfo.nombre}">
+		    <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}")></span>
+		  </div>
+		</div>
+		
+		<!-- Text input-->
+		<div class="form-group">
+		  <label class="col-md-4 control-label" for="email">Email</label>  
+		  <div class="col-md-4">
+		  <input id="email" name="email" type="text" placeholder="Escribe sus email" class="form-control input-md" th:value="${empEditInfo} ? ${empEditInfo.email}">
+		   <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}")></span>
+		  </div>
+		</div>
+		
+		<!-- Text input-->
+		<div class="form-group">
+		  <label class="col-md-4 control-label" for="tel">Telefono</label>  
+		  <div class="col-md-4">
+		  <input id="telefono" name="telefono" type="text" placeholder="Escribe su telefono" class="form-control input-md" th:value="${empEditInfo} ? ${empEditInfo.telefono}">
+		  </div>
+		</div>
+		
+		<div class="form-group">
+		  <label class="col-md-4 control-label" for="tel">Avatar</label>  
+		  <div class="col-md-4">
+		  <input id="ruta" name="ruta" type="file" class="form-control input-md">
+		  </div>
+		</div>
+		
+		<div class="form-group">
+		  <label class="col-md-4 control-label" for="btn"></label>
+		  <div class="col-md-4">
+		    <a href="/" class="btn btn-danger">Inicio</a>
+		    <button id="btn" name="btn" class="btn btn-primary">Enviar</button>
+  		 </div>
+		</div>
+		</fieldset>
+		</form>
+	</div>
+</body>
+</html>

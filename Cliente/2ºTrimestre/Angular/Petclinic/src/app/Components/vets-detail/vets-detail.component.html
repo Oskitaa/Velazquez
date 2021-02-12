@@ -1,0 +1,29 @@
+<div class="container text-center" align="center">
+    <table class="table table-striped col-md-5" align="center">
+        <tbody>
+                <tr>
+                    <th>ID:</th>
+                    <th> {{vet.id}}</th>
+                </tr>
+                <tr>
+                    <th>NOMBRE:</th>
+                    <th > {{vet.firstName}}</th>
+                </tr>
+                <tr>
+                    <th>APELLIDO:</th>
+                    <th> {{vet.lastName}}</th>
+                </tr>
+                <tr>
+                    <th>ESPECIALIDADES:</th>
+                    <th *ngFor="let item of vet.specialties"  class="list-group-item">{{item.name}}</th>
+                </tr>
+        </tbody>
+        <th>
+
+            <button class="btn btn-primary" routerLink="/owners-add/">Editar</button>
+        </th>
+        <th>
+            <button class="btn btn-danger"  [disabled]="">Eliminar</button>
+        </th>
+    </table>
+</div>

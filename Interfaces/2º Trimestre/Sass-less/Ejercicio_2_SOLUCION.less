@@ -1,0 +1,58 @@
+@teal : teal;
+@rojo : red;
+@naranja : orange;
+@azul : blue;
+@verde : green;
+@oliva: olive;
+@morado: purple;
+
+#titulo{
+    color: @teal;
+}
+
+#subtitulo,caption{
+    color: @azul;
+}
+
+.destacado{
+    color: @naranja;
+}
+
+strong{
+    color:@rojo;
+}
+
+td{
+    color : @verde;
+    strong{
+        color: @naranja;
+    }
+}
+
+.especial{
+    color: @naranja;
+    span.&{
+        color: @morado;
+    }
+}
+
+tfoot{
+    color:@rojo;
+}
+
+a{
+    color:@rojo;
+    em{
+        color: @azul;
+    }
+}
+
+#adicional{
+    color: @oliva;
+    #especial{
+        color: @morado;
+    }
+    a{
+        color: @verde;
+    }
+}
