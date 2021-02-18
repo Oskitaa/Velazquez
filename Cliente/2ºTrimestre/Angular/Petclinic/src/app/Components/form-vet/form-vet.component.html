@@ -1,5 +1,5 @@
 <div class="container" >
-    <h1 align="center">Añadir nuevo Veterinario</h1>
+    <h1 align="center">{{etiqueta}} Veterinario</h1>
 
 <form #formulario="ngForm" (ngSubmit)="onSubmit(formulario.value)">
 
@@ -16,11 +16,15 @@
     </div>
 
     <div class="form-group">
-        <label for="specialties" >Especialidad:</label>
-        <input type="text" class="form-control" id="specialties" name="specialties" required [(ngModel)]="vet.specialties" #specialties="ngModel">
+        <label for="especialidad" >Especialidad:</label>
+        <select [(ngModel)]="vet.specialties" name="specialties" multiple required #specialties="ngModel">
+  
+          <option *ngFor="let item of especialidad" [ngValue]="item" [selected]="true">{{item.name}}</option>
+        </select>
         <div [hidden]="specialties.valid || specialties.pristine" class="alert alert-danger">La especialidad es obligatoria.</div>
     </div>
     <br>
-    <button type="submit" class="btn btn-primary" [disabled]="!formulario.valid">Añadir</button>
+    <button type="submit" class="btn btn-primary" [disabled]="!formulario.valid">{{etiqueta}}</button>
   </form>
 </div>
+

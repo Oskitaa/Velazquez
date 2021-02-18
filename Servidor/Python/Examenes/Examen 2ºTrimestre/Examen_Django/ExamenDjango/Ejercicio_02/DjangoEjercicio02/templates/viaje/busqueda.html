@@ -1,0 +1,55 @@
+{% extends "master.html" %}
+ 
+{% block metadatos %}
+ 
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Examen HLC DJANGO - Resultados de la búsqueda">
+    <meta name="author" content="">
+ 
+{% endblock %}
+ 
+ 
+{% block contenidos %}
+ 
+    <!-- Contenido -->
+    <div class="container">
+        <div class="row">
+            <!-- Entradas  -->
+            <div class="col-md-8">
+                <h1 class="my-4">Resultados para la búsqueda: 
+
+                    {{query}}
+                </h1>
+
+                {% if ciudades %}
+                    <table class="table">
+                        <tbody>
+                            {% for ciudad in ciudades %}
+            
+                            <!-- INSERTAR CÓDIGO PARA MOSTRAR EL LISTADO DE CIUDADES DEL PAÍS SELECCIONADO -->
+                            <div class="card mb-4">
+                                <img class="card-img-top" src="{{ciudad.foto.url}}" alt="{{ ciudad.nombre }}">
+                                <div class="card-body">
+                                    <h2 class="card-title">{{ ciudad.nombre }}</h2>
+                                    <p class="card-text">{{ciudad.description|striptags|truncatewords_html:50 }}</p>
+                                </div>
+                            </div>
+                            {% endfor %}  
+                        </tbody>
+                    </table>
+                {% endif %}
+                {% if not ciudades %}
+                    <p>No se ha encontrado ninguna ciudad :(</p>
+                {% endif %}
+                
+
+            </div>
+
+            {% include 'viaje/lateral.html' %}
+            
+            
+        </div>
+    </div>
+ 
+{% endblock %}

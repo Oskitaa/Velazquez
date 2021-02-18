@@ -19,10 +19,19 @@ export class VetService {
     return this.peti.post<Vet>(this.url,JSON.stringify({"accion": "ObtenerVetId", "id" : id}));
   }
   addVet(vet : Vet){
-    return this.peti.post<Vet>(this.url,JSON.stringify({"accion": "AnadeVet", "vet" : vet}));
+    return this.peti.post<Vet>(this.url,JSON.stringify(
+      {"accion": "AnadeVet",
+       "vet" : vet
+    }));
   }
+  
   delVet(id : number){
     return this.peti.post<Vet>(this.url,JSON.stringify({"accion": "BorraVet", "id" : id}));
+  }
+
+  ModVet(vet ){
+    console.log(vet);
+    return this.peti.post<Vet>(this.url,{"accion": "ModificaVet", "vet" : vet});
   }
 }
 

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>Listado de departamentos del centro {{ centro.nombre }}</h3>
+	{% if departamentos %}
+		<table class="table">
+		  <thead>
+		    <tr>
+		      <th scope="col">Nombre</th>
+		      <th scope="col">Presupuesto</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  	{% for departamento in departamentos %}
+		    <tr>
+		      <td>{{ departamento.nombre }}</td>
+		      <td>{{ departamento.presupuesto }}</td>
+		    </tr>
+		    {% endfor %}
+		  </tbody>
+		</table>
+	{% else %}
+		<p>No hay departamentos del centro</p>
+	{% endif %}
+</body>
+</html>

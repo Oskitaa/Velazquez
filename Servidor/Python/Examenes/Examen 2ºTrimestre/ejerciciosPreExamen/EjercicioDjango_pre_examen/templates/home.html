@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagina home</title>
+</head>
+<body>
+    <h3>Listado de centros</h3>
+	{% if centros %}
+		<table class="table">
+		  <thead>
+		    <tr>
+		      <th scope="col">Nombre</th>
+		      <th scope="col">Dirección</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  	{% for centro in centros %}
+		    <tr>
+		      <td><a href="{% url 'departamentos' centro.slug %}">{{ centro.nombre }}</a>
+		      </td>
+		      <td>{{ centro.direccion }}</td>
+		    </tr>
+		    {% endfor %}
+		  </tbody>
+		</table>
+	{% else %}
+		<p>No hay centros</p>
+	{% endif %}
+</body>
+</html>

@@ -8,12 +8,13 @@ import { Especialties } from '../Models/especialties';
 export class SpecialtiesService {
 
   public : Especialties;
-
+  private url : string = "http://localhost/serviciosweb/petclinic/servicios.php";
   constructor(private peti : HttpClient) { }
 
-  getVets(){
-    return this.peti.post<Vet[]>(this.url,JSON.stringify({"accion": "ListarVets"}));
+  getSpecialties(){
+    return this.peti.post<Especialties[]>(this.url,JSON.stringify({"accion": "ListarSpecialties"}));
   }
+  /*
   getOneVet(id : number){
     return this.peti.post<Vet>(this.url,JSON.stringify({"accion": "ObtenerVetId", "id" : id}));
   }
@@ -23,4 +24,5 @@ export class SpecialtiesService {
   delVet(id : number){
     return this.peti.post<Vet>(this.url,JSON.stringify({"accion": "BorraVet", "id" : id}));
   }
+  */
 }

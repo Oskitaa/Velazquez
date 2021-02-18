@@ -1,0 +1,41 @@
+{% block leteral %}
+<!-- Columnas Lateral -->
+<div class="col-md-4">
+ 
+    <!-- Formulario de Búsqueda -->
+    <div class="card my-4">
+        <h5 class="card-header">Búsqueda</h5>
+
+        <!-- INSERTAR EL CÓDIGO PARA MOSTRAR EL FORMULARIO PARA REALIZAR LA BÚSQUEDA (MÉTODO GET)-->
+        <form action="{% url 'busqueda' %}" method="GET">
+            <input type="search" name="buscar">
+            <button type="submit">Ir</button>
+        </form>
+
+
+    </div>
+ 
+    <!-- Listado de Países -->
+    <div class="card my-4">
+        <h5 class="card-header">Países</h5>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-6">
+                    <ul class="list-unstyled mb-0">
+
+                        <!-- INSERTAR EL CÓDIGO PARA MOSTRAR EL LISTADO DE PAÍSES -->
+                        {% for pais in paises %}
+                            <li>
+                            <a href=" {% url 'pais' pais.slug %} ">{{ pais.nombre }}</a>
+                            </li>
+                        {% endfor %}    
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+ 
+</div>
+{% endblock %}

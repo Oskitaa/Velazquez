@@ -14,7 +14,11 @@ export class VetsComponent implements OnInit {
   constructor(private petiVet : VetService) { }
 
   deleteVet(vet : Vet){
-
+    if(confirm(`Desea borrar a ${vet.firstName}`)){
+      this.petiVet.delVet(vet.id).subscribe(d => {
+        this.vets.splice(this.vets.indexOf(vet),1);
+      });
+    }
   }
 
   ngOnInit(): void {
