@@ -1,4 +1,4 @@
-package dwes.java.spring.proyecto.upload.storage;
+package dwes.spring.tarea.oscar.carballar.upload.storage;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

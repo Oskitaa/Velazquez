@@ -1,10 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>Starter Template for Bootstrap</title>
+
+<!-- Bootstrap core CSS -->
+<link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link href="/css/starter-template.css" rel="stylesheet">
+
+<style>
+    .container{
+        margin-top:70px;
+    }
+</style>
+
 </head>
 <body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                <li class="nav-item active">
+                    <a class="nav-link" aria-current="page" href="/">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/producto/new">Nuevo Producto</a>
+                </li>
+                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                    <a class="nav-link" href="/login">Login</a>
+                </li>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a class="nav-link" th:href="@{/logout}">Logout</a>
+                </li>
+                <li class="nav-item">
+                    <form th:action="@{/}" method="get">
+                        <input type="search" name="q">
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+
+    <div class="starter-template">
+        <h1>Listado de Productos</h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Unidades disponibles</th>
+                <th  sec:authorize="hasRole('GESTOR')">Acciones</th>
+
+            </thead>
+            <tbody>
+            <tr th:each="producto : ${listaProductos}">
+                <td ><a th:href="@{/producto/detail/{id}(id=${producto.id})}" th:text="${producto.nombre}">Editar</a></td>
+                <td th:text="${producto.precio}"></td>
+                <td th:text="${producto.unidades}"></td>
+                <td  sec:authorize="hasRole('GESTOR')"><a th:href="@{/producto/edit/{id}(id=${producto.id})}">Editar</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
 
 </body>
 </html>

@@ -1,0 +1,25 @@
+<form #formulario="ngForm" (ngSubmit)="onSubmit(formulario.value)">
+
+    
+      <p>Nombre:<input type="text" id="NOMBRE" name="NOMBRE" required [(ngModel)]="alumno.NOMBRE" #NOMBRE="ngModel"></p>
+      
+    
+        <p>Apellidos:<input type="text" id="APELLIDOS" name="APELLIDOS" required [(ngModel)]="alumno.APELLIDOS" #APELLIDOS="ngModel"></p>
+        
+        <p>Sexo:
+            <select name="SEXO" id="SEXO"  required [(ngModel)]="alumno.SEXO" #SEXO="ngModel">
+                <option *ngFor="let item of sexos" [value]="item.CODIGO" >{{item.NOMBRE}}</option>
+            </select>
+        </p>
+        
+        <p>Estado civil:
+            <select name="ESTADO_CIVIL" id="ESTADO_CIVIL" required [(ngModel)]="alumno.ESTADO_CIVIL" #ESTADO_CIVIL="ngModel">
+                <option *ngFor="let item of estado" [value]="item.ID" >{{item.NOMBRE}}</option>
+            </select>
+        </p>
+        
+        <p>Fecha de nacimiento: <input type="date" name="FECHA_NACIMIENTO" id="FECHA_NACIMIENTO" required [(ngModel)]="alumno.FECHA_NACIMIENTO" #FECHA_NACIMIENTO="ngModel"></p>
+                 
+    <br>
+    <button type="submit" class="btn btn-primary" [disabled]="!formulario.valid">{{etiqueta}}</button>
+  </form>

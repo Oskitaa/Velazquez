@@ -1,0 +1,19 @@
+<h1>Listado de Estados Civiles</h1>
+
+<div>
+    <table>
+        <thead>
+            <th>ID</th>
+            <th>NOMBRE</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of estados">
+                <td>{{item.ID}}</td>
+                <td>{{item.NOMBRE}}</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <td colspan="2">Total de estados: {{estados.length}}</td>
+        </tfoot>
+    </table>
+</div>

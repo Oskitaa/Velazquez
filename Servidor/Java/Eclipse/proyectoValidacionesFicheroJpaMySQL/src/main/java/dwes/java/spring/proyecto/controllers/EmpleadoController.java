@@ -27,7 +27,7 @@ import dwes.java.spring.proyecto.upload.storage.StorageService;
 public class EmpleadoController {
 	
 	@Autowired
-	private EmpleadoService servicio;
+	private EmpleadoServiceDB servicio;
 	
 	@Autowired
 	private StorageService storageService;

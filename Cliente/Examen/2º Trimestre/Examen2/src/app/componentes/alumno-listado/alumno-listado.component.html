@@ -1,0 +1,34 @@
+<h1>Listado de alumnos</h1>
+
+<button [routerLink]="['/alumnos/addmod/-1']" routerLinkActive="router-link-active" [disabled]="visible">Añadir alumno</button>
+
+<table>
+    <thead>
+        <th>ID</th>
+        <th>NOMBRE</th>
+        <th>SEXO</th>
+        <th>ESTADO CIVIL</th>
+        <th>FECHA DE NACIMIENTO</th>
+        <th>ACCIONES</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of alumnos">
+            <td>{{item.ID}}</td>
+            <td>{{item.NOMBRE}}</td>
+            <td>{{item.SEXO_NOMBRE}}</td>
+            <td>{{item.NOMBRE_EC}}</td>
+            <td>{{item.FECHA_NACIMIENTO | date: 'dd-MM-yyyy'}}</td>
+            <td>
+                <button routerLink="/alumnos/addmod/{{item.ID}}" routerLinkActive="router-link-active" [disabled]="visible">Editar</button>
+                <button (click)="toggleVisible(item)" [disabled]="visible">Eliminar</button>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <td colspan="6">Alumos totales : {{alumnos?.length}}</td>
+    </tfoot>
+</table>
+
+<div *ngIf="visible">
+    <app-alumno-del [alumno]= "alumno" (alumnos)="borra($event)" ></app-alumno-del>
+</div>
