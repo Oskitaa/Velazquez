@@ -1,0 +1,40 @@
+
+1º Descargar nodeJS
+
+2º Abrir un cmd y teclear:
+
+	* Actualizar npm:
+		npm install -g npm@latest
+
+
+	* Borrar la caché de npm:
+		npm cache clean --force
+
+
+	* Instalamos un paquete que se llama Create React Apps, 
+		es un cli, tipo Angular cli
+
+	
+		npm install -g create-react-app
+
+
+
+	* Una vez instalado, ya podemos crear un nuevo proyecto de React
+
+	* Vamos a la carpeta donde queremos crear el proyecto (como en Angular)
+
+	C:/Proyectos_React> (por ejemplo)
+
+	Para generar un proyecto de React se hace:
+
+	create-react-app nombreProyecto   (nombre de la carpeta)
+
+	NO SE PUEDE UTILICAR CAPITAL LETER. No podéis poner en mayúscula, 
+	pero más tarde se puede cambiar el nombre a la carpeta.
+
+
+	Después de esto el cli nos da info para compilar y crear servidor local.
+	(igual que en Angular)
+
+
+	(npm start)
